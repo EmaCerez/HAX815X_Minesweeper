@@ -1,0 +1,66 @@
+
+/*  ------------------------------------------------------------------------
+#
+# Title : Minesweeper - CSS Styles
+#    By : Ema Cerezo and Paul Crespin
+#  Date : 2023-03-20
+#    
+#         This file contains the parameters for the fancy css display
+#
+#  ------------------------------------------------------------------------ */
+
+
+/* Fancy google font */
+@import url('https://fonts.googleapis.com/css?family=Audiowide');
+
+
+body {
+  min-height: 100%; 
+  width:100%; 
+  position: absolute;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  background: -moz-radial-gradient(circle at center, #F4F3F3, #DFDFDF) fixed;
+  background: -webkit-radial-gradient(circle at center, #F4F3F3, #DFDFDF) fixed;
+  background: -ms-radial-gradient(circle at center, #F4F3F3, #DFDFDF) fixed;
+  background: -o-radial-gradient(circle at center, #F4F3F3, #DFDFDF) fixed;
+  background: radial-gradient(circle at center, #F4F3F3, #DFDFDF) fixed;
+}
+
+
+.title-app {
+  text-align: center;
+  width: 100%;
+  margin-top: 60px;
+}
+
+
+h1 {
+  font-family: "Audiowide", sans-serif;
+  font-weight: bold;
+}
+
+
+h2 {
+  font-family: "Audiowide", sans-serif;
+}
+
+
+.shiny-input-container {
+  color: #474747;
+}
+
+
+.shiny-notification-message {
+  color: #fff !important;
+    background-color: #5cb85c !important;
+    border: 1px solid #5cb85c !important;
+}
+
+
+#shiny-notification-panel {
+width: 350px !important;
+text-align: center !important;
+}
