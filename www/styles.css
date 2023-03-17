@@ -22,11 +22,11 @@ body {
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
-  background: -moz-radial-gradient(circle at center, #F4F3F3, #DFDFDF) fixed;
-  background: -webkit-radial-gradient(circle at center, #F4F3F3, #DFDFDF) fixed;
-  background: -ms-radial-gradient(circle at center, #F4F3F3, #DFDFDF) fixed;
-  background: -o-radial-gradient(circle at center, #F4F3F3, #DFDFDF) fixed;
-  background: radial-gradient(circle at center, #F4F3F3, #DFDFDF) fixed;
+  background: -moz-linear-gradient(to bottom, #b7eaff 0%,#03C988 100%) fixed;
+  background: -webkit-linear-gradient(to bottom, #b7eaff 0%,#03C988 100%) fixed;
+  background: -ms-linear-gradient(to bottom, #b7eaff 0%,#03C988 100%) fixed;
+  background: -o-linear-gradient(to bottom, #b7eaff 0%,#03C988 100%) fixed;
+  background: linear-gradient(to bottom, #b7eaff 0%,#03C988 100%) fixed;
 }
 
 
@@ -66,9 +66,30 @@ text-align: center !important;
 }
 
 
-.container {
+.top-container {
     text-align: center;
+    display: flex;
+    margin:auto; 
+    background-color:#ffffff; 
+    margin-top:20px; 
+    width: 820px;
+    border: 2mm ridge rgba(102, 53, 26, 1);
+    border-top-left-radius: 2rem;
+    border-top-right-radius: 2rem;
 }
+
+.bottom-container {
+    text-align: center;
+    margin:auto; 
+    background-color: #665A48; 
+    padding: 30px;
+    width: 820px;
+    border: 2mm ridge rgba(102, 53, 26, 1);
+    border-bottom-left-radius: 2rem;
+    border-bottom-right-radius: 2rem;
+    border-top: none;
+}
+
 
 .centered-element{
     display: inline-block;

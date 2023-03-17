@@ -13,6 +13,7 @@
 library("shiny")
 library("png")
 library("shinyjs")
+library("shinyWidgets")
 
 
 # Modules -----------------------------------------------------------------
@@ -29,8 +30,8 @@ source("modules/welcome-module.R")
 
 # Global ------------------------------------------------------------------
 
-no_logo <- img(src="images/tiles/dark_brown_bomb.png", height=30, width=30)
-mine_logo <- img(src="images/tiles/dark_green.png", height=30, width=30)
+mine_logo <- img(src="images/tiles/dark_brown_bomb.png", height=32, width=32)
+no_logo <- img(src="images/tiles/dark_green.png", height=32, width=32)
 
 
 n_tile <- 4
@@ -51,6 +52,9 @@ matrice_boutons <- matrix(rep(boutons, layout[1, difficulty]),
 
 len_mat_jumps <- length(matrice_boutons) + layout[1, difficulty]
 
+flags_left <- bombs[difficulty]
+
+points <- 1800
 
 
 # RShiny App --------------------------------------------------------------
@@ -74,36 +78,62 @@ ui <- fluidPage(
     class = "title-app",
     tags$h1("Minesweeper"),
     tags$h4("Find all the bombs!"),
+    
+    tags$br(style = "display: block; content: ''; margin-top: 40px;"),
+    
     tags$div(
-      style = "width: 650px; margin: auto;",
-      time_UI("timer"),
-      tags$br(),
+      class = "top-container",
+      
+      tags$div(
+        style = "width: 100%; text-align: center; font-size: 166%; font-weight: bold; width: 33%;",
+        tags$style(".fa-crown {color: #40DFEF; font-size: 83%}"),
+        icon("crown", lib="font-awesome"),
+        points
+      ),
+      
+      tags$div(
+        style = "width: 100%; text-align: center; font-size: 166%; font-weight: bold; width: 33%;",
+        tags$style(".fa-flag {color: #DF2E38; font-size: 83%}"),
+        icon("flag", lib="font-awesome"),
+        flags_left
+        
+      ),
+      
+      tags$div(
+        style = "text-align: center; width: 33%;",
+        time_UI("timer"),
+      ),
     ),
+    
     
     
     # -------------- Jeu -------------------------------------------------------
     
+    
     tags$div(
-      lapply(X = 1:len_mat_jumps,
-             FUN = function(i) {
-               if (i %% (layout[2, difficulty] + 1) == 0) {tags$br()} 
-               else {
-                 actionButton(
-                   inputId = paste0("button", i - (i %/% (layout[1, difficulty] + 1))),
-                   label = get(matrice_boutons[i - (i %/% (layout[1, difficulty] + 1))]),
-                   style = "padding: 0px;
+      class = "bottom-container",
+      tags$div(
+        style = ("outline: 10px rgba(69, 35, 17, 1);"),
+        lapply(X = 1:len_mat_jumps,
+               FUN = function(i) {
+                 if (i %% (layout[2, difficulty] + 1) == 0) {tags$br()} 
+                 else {
+                   actionButton(
+                     inputId = paste0("button", i - (i %/% (layout[1, difficulty] + 1))),
+                     label = get(matrice_boutons[i - (i %/% (layout[1, difficulty] + 1))]),
+                     style = "padding: 0px;
                             background-size: cover;
+                            border: none;
                             margin-right: -5px; 
                             margin-bottom: -1px;")
+                 }
                }
-             }
+        ),
       )
-    )
+    ),
   ),
   
-
-  
-
+  tags$br()
 )
 
 
