@@ -32,7 +32,6 @@ body {
 
 .title-app {
   text-align: center;
-  width: 100%;
   margin-top: 60px;
 }
 
@@ -64,4 +63,14 @@ h2 {
 #shiny-notification-panel {
 width: 350px !important;
 text-align: center !important;
+}
+
+
+.container {
+    text-align: center;
+}
+
+.centered-element{
+    display: inline-block;
+  
 }
