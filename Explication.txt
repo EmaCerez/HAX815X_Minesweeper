@@ -100,7 +100,7 @@ Une fois cette boucle préliminaire terminée, on peut commencer à jouer le res
 
 Tant que "partie_terminee" est False, on affiche la grille et on actualise le nombre de drapeaux restants.
 
-Si le nombre de cases visibles est égale à la surface de la matrice moins le nombre de mines, c'est que le joueur a gagné et on affiche son temps.
+Si le nombre de cases visibles est égale à la surface de la matrice moins le nombre de mines, c'est que le joueur a gagné, on change le "partie_terminee" en TRUE et on affiche son temps.
 Sinon, on demande au joueur une case à jouer, avec une possibilité de mettre un drapeau.
 
 S'il joue un drapeau, on vérifie qu'il lui en reste et qu'il n'essaie d'en mettre un sur une case déjà visible.
@@ -109,6 +109,6 @@ S'il peut le jouer, on inverse le booléen de la case dans la matrice des drapea
 S'il n'a pas joué de drapeau, on regarde s'il y a un drapeau et on l'empêche de jouer s'il y en a un. Il faut qu'il le retire au préalable pour jouer la case (ça évite les erreurs).
 S'il n'y a pas de drapeau, on regarde s'il y a une bombe dans la case.
 
-Si c'est le cas, il a perdu, on passe la matrice "visible" en TRUE, on change la bombe jouée en -2, on affiche la matrice des positions des bombes et on affiche le temps de la partie.
+Si c'est le cas, il a perdu, on passe la matrice "visible" et "partie_terminee" en TRUE, on change la bombe jouée en -2, on affiche la matrice des positions des bombes et on affiche le temps de la partie.
 
 Sinon, on actualise la matrice "visible" et la boucle recommence.
