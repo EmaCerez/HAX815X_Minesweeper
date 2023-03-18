@@ -107,6 +107,7 @@ jouer_partie <- function() {
         }
       }
     }
+
     visible <- reveler_cases_adjacentes(grille, visible, i, j)
 
   } else {
