@@ -1,66 +1,106 @@
 
-#  ------------------------------------------------------------------------
+#  -----------------------------------------------------------------------------
 #
 # Title : Minesweeper
 #    By : Ema Cerezo and Paul Crespin
 #  Date : 2023-03-20
 #    
-#  ------------------------------------------------------------------------
+#  -----------------------------------------------------------------------------
 
 
-# Packages ----------------------------------------------------------------
-
-library("shiny")
-library("png")
-library("shinyjs")
-library("shinyWidgets")
+source("global.R")
 
 
-# Modules -----------------------------------------------------------------
-
-source("modules/time-module.R")
-source("modules/welcome-module.R")
+# RShiny App -------------------------------------------------------------------
 
 
-# Functions ---------------------------------------------------------------
+# Serveur
 
-#source("sources/Démine.R")
-#source("sources/functions.R")
+server <- function(input, output, session) {
+  
+  # Appels
+  start <- callModule(module = welcome, id = "welcome")
+  timer <- callModule(module = time, id = "timer", start = start)
+  
+  # Boutons
+  #observeEvent(input$do, {
+  #  session$sendCustomMessage(type = 'testmessage',
+  #                            message = 'Thank you for clicking')
+  #})
+  
+  
+  # -------------- Jeu ---------------------------------------------------------
+  
+  # Paramètres
+  
+  output$results <- renderText(input$diff)  # Difficulté
+  difficulty <- reactiveVal(1)
+  observe({
+    if (!is.null(input$diff)) {
+      difficulty(switch(input$diff, 
+                        "Rookie" = 1, 
+                        "Deminer" = 2, 
+                        "Wizard" = 3, 
+                        "All-seeing" = 4, 
+                        1))}
+  })
+  
+  bombs <- c(10, 40, 99, 120)              # Nombre de bombes
+  layout <- matrix(c(8, 10, 14, 18, 20, 24, 20, 24), ncol=4, nrow=2)
+  
+  row_number <- reactiveVal(8)             # Arrangement
+  column_number <- reactiveVal(10)
+  
+  observe({
+    row_number(layout[2, difficulty()])
+    column_number(layout[1, difficulty()])
+  })
+ 
+  len_mat_jumps <- reactiveVal(90)
+  
+  observe({
+    boutons <- rep("no_logo", row_number())
+    matrice_boutons <- matrix(rep(boutons, column_number()), 
+                              ncol=row_number(), 
+                              nrow=column_number(), 
+                              byrow=FALSE)
+    len_mat_jumps <- length(matrice_boutons) + column_number()
+    
+    
+    # -------------- UI -------------------------------------------------------
+    
+    output$game <- renderUI(
+      
+      tags$div(
+        class = "bottom-container",
+        
+        # Grille
+        tags$div(
+          style = ("outline: 10px rgba(69, 35, 17, 1);"),
+          lapply(X = 1:len_mat_jumps,
+                 FUN = function(i) {
+                   if (i %% (row_number() + 1) == 0) {tags$br()} 
+                   else {
+                     actionButton(
+                       inputId = paste0("button", i - (i %/% (column_number() + 1))),
+                       label = get(matrice_boutons[i - (i %/% (column_number() + 1))]),
+                       style = "padding: 0px;
+                            background-size: cover;
+                            border: none;
+                            margin-right: -5px; 
+                            margin-bottom: -1px;")
+                   }
+                 }
+          )
+        )
+      )
+    )
+  })
+}
 
 
-# Global ------------------------------------------------------------------
 
-mine_logo <- img(src="images/tiles/dark_brown_bomb.png", height=32, width=32)
-no_logo <- img(src="images/tiles/dark_green.png", height=32, width=32)
-
-
-n_tile <- 4
-
-
-bombs <- c(10, 40, 99)
-
-layout <- matrix(c(8, 10, 14, 18, 20, 24), ncol=3, nrow=2)
-
-difficulty <- 3
-
-boutons <- rep("no_logo", layout[2, difficulty])
-
-matrice_boutons <- matrix(rep(boutons, layout[1, difficulty]), 
-                          ncol=layout[2, difficulty], 
-                          nrow=layout[1, difficulty], 
-                          byrow=FALSE)
-
-len_mat_jumps <- length(matrice_boutons) + layout[1, difficulty]
-
-flags_left <- bombs[difficulty]
-
-points <- 1800
-
-
-# RShiny App --------------------------------------------------------------
-
-
-# UI --------------------------------------------------------------
+# UI
 
 ui <- fluidPage(
   
@@ -77,28 +117,41 @@ ui <- fluidPage(
     
     class = "title-app",
     tags$h1("Minesweeper"),
-    tags$h4("Find all the bombs!"),
+    tags$h4("Can you find all the bombs?"),
     
     tags$br(style = "display: block; content: ''; margin-top: 40px;"),
+    
+    
+    # ------------- Informations sur la partie ---------------------------------
     
     tags$div(
       class = "top-container",
       
+      # Score
       tags$div(
-        style = "width: 100%; text-align: center; font-size: 166%; font-weight: bold; width: 33%;",
+        style = "width: 100%; 
+                  text-align: center; 
+                  font-size: 166%; 
+                  font-weight: bold; 
+                  width: 33%;",
         tags$style(".fa-crown {color: #40DFEF; font-size: 83%}"),
         icon("crown", lib="font-awesome"),
         points
       ),
       
+      # Drapeaux restants
       tags$div(
-        style = "width: 100%; text-align: center; font-size: 166%; font-weight: bold; width: 33%;",
+        style = "width: 100%; 
+                  text-align: center; 
+                  font-size: 166%; 
+                  font-weight: bold; 
+                  width: 33%;",
         tags$style(".fa-flag {color: #DF2E38; font-size: 83%}"),
         icon("flag", lib="font-awesome"),
         flags_left
-        
       ),
       
+      # Temps
       tags$div(
         style = "text-align: center; width: 33%;",
         time_UI("timer"),
@@ -106,50 +159,15 @@ ui <- fluidPage(
     ),
     
     
-    
     # -------------- Jeu -------------------------------------------------------
     
-    
-    tags$div(
-      class = "bottom-container",
-      tags$div(
-        style = ("outline: 10px rgba(69, 35, 17, 1);"),
-        lapply(X = 1:len_mat_jumps,
-               FUN = function(i) {
-                 if (i %% (layout[2, difficulty] + 1) == 0) {tags$br()} 
-                 else {
-                   actionButton(
-                     inputId = paste0("button", i - (i %/% (layout[1, difficulty] + 1))),
-                     label = get(matrice_boutons[i - (i %/% (layout[1, difficulty] + 1))]),
-                     style = "padding: 0px;
-                            background-size: cover;
-                            border: none;
-                            margin-right: -5px; 
-                            margin-bottom: -1px;")
-                 }
-               }
-        ),
-      )
-    ),
+    uiOutput("game")
   ),
   
   tags$br()
 )
 
 
-# Server --------------------------------------------------------------
-
-server <- function(input, output, session) {
-  
-  start <- callModule(module = welcome, id = "welcome")
-  timer <- callModule(module = time, id = "timer", start = start)
-  
-  observeEvent(input$do, {
-    session$sendCustomMessage(type = 'testmessage',
-                              message = 'Thank you for clicking')
-  })
-}
-
-
+# Lancement --------------------------------------------------------------------
 
 shinyApp(ui = ui, server = server)

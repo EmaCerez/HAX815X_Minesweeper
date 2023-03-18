@@ -47,6 +47,13 @@ h2 {
 }
 
 
+h3 {
+  font-family: "Audiowide", sans-serif;
+  font-weight: bold;
+  font-size: 15;
+  text-align: center;
+}
+
 .shiny-input-container {
   color: #474747;
   margin: auto;
