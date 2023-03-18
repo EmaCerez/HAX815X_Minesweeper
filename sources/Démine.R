@@ -107,12 +107,8 @@ jouer_partie <- function() {
         }
       }
     }
+    visible <- reveler_cases_adjacentes(grille, visible, i, j)
 
-    if (is.na(d)) {
-      visible <- reveler_cases_adjacentes(grille, visible, i, j)
-    } else {
-      drapeaux[i, j] <- !drapeaux[i, j]
-    }
   } else {
     drapeaux[i, j] <- !drapeaux[i, j]
     while (!is.na(d)) {

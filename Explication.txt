@@ -1,0 +1,114 @@
+Dans l'ordre de mon code:
+
+Préambule:
+
+Les 3 matrices suivantes sont des matrices de taille "taille_grille1" par "taille_grille2".
+
+La matrice "grille" contient soit la position des bombes (noté -1), soit le nombre de bombes autour de chaque case (entre 0 et 8).
+Un -1 peut-être remplacé par un -2 si une bombe est découverte par le joueur. Celà sert pour la fin de la partie.
+Elle est initialisée avec des 0.
+
+La matrice "visible" est une matrice de booléens. Elle contient True si la case est visible, False sinon.
+Elle est initialisée avec des False.
+
+La matrice "drapeau" est une matrice de booléens. Elle contient True si la case contient un drapeau, False sinon.
+Elle est initialisée avec des False.
+
+Il est plus simple de travailler avec des matrices de booléens que des matrices de 0 et de 1.
+En effet, on peut utiliser directement les opérateurs de comparaison sur les booléens.
+
+- Fonctions: -----------------------------------------------------------
+
+-La fonction "afficher_grille" prend en paramètre 3 matrices. La matrice des positions des bombes, la matrice des positions des cases découvertes et la matrice des positions des drapeaux.
+Elle affiche la grille en fonction de ces matrices.
+
+On procède par chacune des cases en ligne par ligne.
+
+Si la case est visible, on affiche le nombre de bombes autour de la case (ou une bombe si la case contient une bombe).
+"F" correspond à la bombe que le joueur aura fait exploser s'il perd.
+"*" correspond aux autres.
+Sinon, si je joueur à mis un drapeau, on affiche un "D".
+Sinon, on affiche un "#".
+
+Enfin, quand la ligne est fini, on revient à la ligne avec "\n".
+
+-----------------------------------------------------------
+
+-La fonction calculer_mines_adjacentes prend en paramètre la matrice des positions des bombes et les coordonnées d'une case.
+Elle sert à calculer le nombre de bombes autour de cette case.
+
+On commence par initialiser le nombre de bombes à 0.
+Puis on regarde le carré de 3 par 3 autour de la case avec un for.
+On vérifie que le carré ne dépasse pas les bords de la grille avec des conditions.
+S'il y a une bombe, on incrémente le nombre de bombes, puis on retourne ce nombre.
+On aura vérifier avant que la case ne contient pas de bombe.
+
+-----------------------------------------------------------
+
+-La fonction reveler_cases_adjacentes prend en paramètre la matrice des positions des bombes, la matrice des positions des cases découvertes et les coordonnées d'une case.
+Elle sert à révéler les cases adjacentes à la case donnée en paramètre.
+
+On commence par vérifier si la case est déjà visible (le joueur l'a déjà joué).
+Si c'est le cas, on retourne la matrice des cases découvertes sans l'avoir changé.
+Sinon, on inverse le booléen de cette case.
+Si la case contient une bombe ou si elle adjacente à une bombe, on renvoit cette nouvelle matrice de cases découvertes.
+
+Sinon, on regarde un carré de 3 par 3 autour de cette case, carré qui doit pas dépasser les bords (On s'en assure avec des conditions).
+Pour chaque case de ce carré, on appelle la fonction "reveler_cases_adjacentes" récursivement avec la matrice des cases actualisée.
+La boucle s'arrête dès que toute les cases à explorer sont différentes de 0 ou que la case correspondante dans la matrice des cases visibles est True.
+
+-Enfin, pour jouer: -----------------------------------------------------------
+
+On demande au joueur la taille de grille qu'il veut et le nombre de mines dedans.
+On enregistre ces valeurs dans les variables "taille_grille1" et "taille_grille2" et "nb_mines".
+
+On initialise la matrice des positions des bombes avec des 0.
+Puis on place les bombes aléatoirement dans la matrice des positions des bombes.
+On utilise la fonction "sample" qui génère aléatoirement la position des bombes entre une position 1 et "la dernière" (correspond à taille_grille1*taille_grille2).
+Cette fonction ne génère pas de doublons, ce qui est pratique pour placer les bombes.
+On place ensuite les bombes dans la matrice des positions des bombes.
+
+On initialise la matrice des cases découvertes "visible" et des drapeaux "drapeaux" avec des False.
+
+On affiche ensuite la grille.
+
+On demande au joueur une case à jouer, avec une possibilité de mettre un drapeau.
+On enregistre la position de la case dans les variables "i" et "j", et d s'il y a un drapeau.
+
+On initialise maintenant le temps de début de partie.
+
+On ne veut pas que le joueur perde dès le début, donc on vérifie que la case qu'il a joué n'est pas une bombe.
+
+Si le joueur n'a pas joué de drapeau, on regarde s'il y a une bombe dans la case.
+Si c'est le cas, on re-génère la matrice des positions des bombes jusqu'à en avoir une où la case joué ne contient pas une bombe.
+Quand on a une matrice correcte pour le coup joué, on peut calculer le nombre de bombes autour de chaque case.
+Enfin, on actualise la matrice des cases découvertes.
+
+Si le joueur a joué un drapeau, c'est un peu plus compliqué.
+
+"nb_drapeaux" correspond au nombre de bombes moins le nombre de drapeaux déjà placés.
+On veut que le joueur puisse placer autant de drapeaux qu'il veut (dans la limite disponible), mais on veut pas encore vérifier la matrice de bombes pour ne pas perde immédiatement.
+Donc tant que le joueur continue à jouer des drapeaux, on place ou retire le drapeau et on lui demande une nouvelle position.
+S'il ne joue pas de drapeau, on vérifie d'abord avant de sortir de la boucle qu'il ne joue pas une case avec un drapeau.
+Sinon, on lui redemande une position.
+
+Enfin, on réapplique la même logique que s'il n'avait pas demandé de drapeau à la base.
+
+-----------------------------------------------------------
+
+Une fois cette boucle préliminaire terminée, on peut commencer à jouer le reste de la partie.
+
+Tant que "partie_terminee" est False, on affiche la grille et on actualise le nombre de drapeaux restants.
+
+Si le nombre de cases visibles est égale à la surface de la matrice moins le nombre de mines, c'est que le joueur a gagné et on affiche son temps.
+Sinon, on demande au joueur une case à jouer, avec une possibilité de mettre un drapeau.
+
+S'il joue un drapeau, on vérifie qu'il lui en reste et qu'il n'essaie d'en mettre un sur une case déjà visible.
+S'il peut le jouer, on inverse le booléen de la case dans la matrice des drapeaux, pour le mettre ou l'enlever.
+
+S'il n'a pas joué de drapeau, on regarde s'il y a un drapeau et on l'empêche de jouer s'il y en a un. Il faut qu'il le retire au préalable pour jouer la case (ça évite les erreurs).
+S'il n'y a pas de drapeau, on regarde s'il y a une bombe dans la case.
+
+Si c'est le cas, il a perdu, on passe la matrice "visible" en TRUE, on change la bombe jouée en -2, on affiche la matrice des positions des bombes et on affiche le temps de la partie.
+
+Sinon, on actualise la matrice "visible" et la boucle recommence.
