@@ -58,6 +58,15 @@ reveler_cases_adjacentes <- function(grille, visible, i, j) {
   return(visible)
 }
 
+## Fonction pour les points
+
+calcul_points <- function(points, temps_depart, nb_cases, nb_nouvelles_cases) {
+  points <- points + (nb_nouvelles_cases - nb_cases)^2 * max(1, floor(100 - (proc.time()[3] - temps_depart)))
+  return(points)
+}
+
+#On récompense les joueurs rapides et coups qui révélent beaucoup de cases d'un coup.
+
 # Jouer
 
 jouer_partie <- function() {
@@ -84,7 +93,7 @@ jouer_partie <- function() {
   i <- as.integer(choix[1])
   j <- as.integer(choix[2])
   d <- choix[3]
-  ptm <- proc.time()
+  ptm <- proc.time()[3]
   if (is.na(d)) {
     test <- TRUE
     if (grille[i, j] == -1) {
@@ -107,8 +116,8 @@ jouer_partie <- function() {
         }
       }
     }
-
     visible <- reveler_cases_adjacentes(grille, visible, i, j)
+    points <- calcul_points(0, ptm, 0, sum(visible))
 
   } else {
     drapeaux[i, j] <- !drapeaux[i, j]
@@ -157,20 +166,24 @@ jouer_partie <- function() {
       }
     }
     visible <- reveler_cases_adjacentes(grille, visible, i, j)
+    points <- calcul_points(0, ptm, 0, sum(visible))
   }
 
   ### On fait une première boucle à part pour ne pas perdre au premier coup
 
   partie_terminee <- FALSE
   while (!partie_terminee) {
+    cases <- sum(visible)
     afficher_grille(grille, visible, drapeaux)
     nb_drapeaux <- nb_mines - sum(drapeaux)
     if (sum(visible) == taille_grille1 * taille_grille2 - nb_mines) {
       cat("Gagné ! ")
       cat("\n")
       cat("Vous avez gagné en: ")
-      cat((proc.time() - ptm)[3])
+      cat((proc.time()[3] - ptm))
       cat(" s")
+      cat("\n")
+      cat("Vous avez eu: ", points, " points. ")
       cat("\n")
       partie_terminee <- TRUE
     } else {
@@ -196,7 +209,7 @@ jouer_partie <- function() {
         cat("Perdu !")
         cat("\n")
         cat("Vous avez perdu en: ")
-        cat((proc.time() - ptm)[3])
+        cat((proc.time()[3] - ptm))
         cat(" s")
         cat("\n")
         visible <- matrix(TRUE, nrow = nrow(grille), ncol = ncol(grille))
@@ -205,6 +218,7 @@ jouer_partie <- function() {
         partie_terminee <- TRUE
       } else {
         visible <- reveler_cases_adjacentes(grille, visible, i, j)
+        points <- calcul_points(points, ptm, cases, sum(visible))
       }
     }
   }
@@ -223,6 +237,6 @@ jouer_partie <- function() {
 #-Choix de la difficulté (Fait)
 #-etc.
 
-#A rajouter, le nombre de drapeaux au début, avant la regénération de la grille
+#A rajouter, le nombre de drapeaux au début, avant la regénération de la grille (fait)
 
 jouer_partie()
