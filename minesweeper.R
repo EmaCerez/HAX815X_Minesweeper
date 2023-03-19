@@ -68,17 +68,73 @@ server <- function(input, output, session) {
     
     flags_left(bombs[difficulty()])
   
-    boutons_l_paire <- rep(c("lg", "dg"), column_number()/2)
-    boutons_l_impai <- rep(c("dg", "lg"), column_number()/2)
+#    boutons_l_paire <- rep(c("lg", "dg"), column_number()/2)
+#    boutons_l_impai <- rep(c("dg", "lg"), column_number()/2)
     
-    matrice_boutons <- matrix(rep(c(boutons_l_paire, boutons_l_impai), row_number()/2), 
-                              ncol=column_number(), 
-                              nrow=row_number(), 
-                              byrow=TRUE)
+    matrice_valeurs <- initGrid(value=0, rows=row_number(), columns=column_number())
+    matrice_valeurs <- generateGrid(matrice_valeurs, 
+                                   rows=row_number(),
+                                   columns=column_number(),
+                                   bombs=bombs[difficulty()])
     
-    print(matrice_boutons)
+    matrice_cache <- initGrid(value=TRUE, rows=row_number(), columns=column_number())
+    matrice_drapeaux <- initGrid(value=FALSE, rows=row_number(), columns=column_number())
+    
+    matrice_jeu <- generateButtons(gridValues=matrice_valeurs,
+                                   gridFlags=matrice_drapeaux,
+                                   gridHidden=matrice_cache,
+                                   rows=row_number(),
+                                   columns=column_number())
+    
+    matrice_boutons <- convertGrid(grid=matrice_jeu, 
+                                   rows=row_number(), 
+                                   columns=column_number())
+    
+    boutons <- reactiveValues(matrice_boutons = matrice_boutons)
     
     len_mat_jumps <- length(matrice_boutons) + row_number()
+    
+    # Boutons ?
+    
+    lignes <- rep(1:row_number(), each=column_number())
+    buttons_ids <- c(paste0(lignes, "_", 1:column_number()))
+    #buttons_ids <- matrix(buttons_ids, nrow=row_number(), ncol=column_number(), byrow=TRUE)
+    
+    print(buttons_ids)
+    
+    lapply(X = buttons_ids, function(x){
+      observeEvent(input[[x]], {
+        coordinates <- as.integer(unlist(strsplit(x=x, "_")))
+        o <- coordinates[1]
+        p <- coordinates[2]
+        
+        update <- updateButton(i=o, j=p, gridValues=matrice_valeurs)
+        
+        if(update == "dr" | update == "lr"){
+          matrice_temp <- initGrid(value=FALSE, rows=row_number(), columns=column_number())
+          to_update <- revealBlock(i=o, j=p, grille=matrice_valeurs, visible=matrice_temp)
+          to_update <- to_coordinates(to_update)
+          for (i in 2:nrow(to_update)){
+            m <- to_update[i, 1]
+            n <- to_update[i, 2]
+            boutons$matrice_boutons[m, n] <- updateButton(i=m, j=n, gridValues=matrice_valeurs)
+          }
+        } else if (update == "db" | update == "lb"){
+          boutons$matrice_boutons[o, p] <- paste0(substr(boutons$matrice_boutons[o, p], 1, 1), "b")
+          endgame()
+        } else {
+          boutons$matrice_boutons[o, p] <- update
+        }
+        
+          
+        #runjs(paste0("$('label[for=\"x\"]').text('",TextVariable,"')"))
+        
+        #print(drapeaux$matrice_drapeaux[x, y])
+        #drapeaux$matrice_drapeaux[x, y] <- TRUE
+        #jeu$matrice_jeu[x, y] <- updateButton(i=x, j=y, gridFlags=drapeaux$matrice_drapeaux, gridValues = matrice_valeurs, gridHidden=matrice_cache)
+        #print(drapeaux$matrice_drapeaux[x, y])
+      })
+    })
     
     
     # -------------- UI -------------------------------------------------------
@@ -136,9 +192,9 @@ server <- function(input, output, session) {
                    else {
                      actionButton(
                        inputId = paste0(i %/% (column_number() + 1) + 1, 
-                                        "-",
+                                        "_",
                                         i %% (column_number() + 1)),
-                       label = get(matrice_boutons[i %/% (column_number() + 1) + 1, i %% (column_number() + 1)]),
+                       label = get(boutons$matrice_boutons[i %/% (column_number() + 1) + 1, i %% (column_number() + 1)]),
                        style = "padding: 0px;
                             background-size: cover;
                             border: none;
@@ -151,6 +207,16 @@ server <- function(input, output, session) {
       ) # div bottom container
     ) # renderUI output$game
   }) # observe
+  
+  # musique
+  observe({
+    req(input$sound_seek)
+    if (round(input$sound_seek) == 10) {
+      pauseHowl("Main theme")
+    }
+  })
+    
+  
 } # server
 
 
@@ -159,11 +225,27 @@ server <- function(input, output, session) {
 
 ui <- fluidPage(
   
+  useShinyjs(),
+  
   tags$head(
     tags$link(href="styles.css", rel="stylesheet", type="text/css"),
     tags$script(src = "message-handler.js"),
     tags$style(type="text/css", "div {white-space: nowrap;}")
   ),
+  
+  tags$div(
+    style = "float: right; background: none;",
+    tags$audio(
+      src = "sound/main_theme.mp3",
+      autoplay = TRUE,
+      controls = FALSE,
+      loop = TRUE,
+      preload = "auto",
+      controlslist = "nodownload"      
+    )
+  ),
+  
+  tags$br(),
   
   tags$div(
     # Titre
@@ -180,7 +262,8 @@ ui <- fluidPage(
     uiOutput("game")
   ),
   
-  tags$br()
+  tags$br(),
+  
 )
 
 
