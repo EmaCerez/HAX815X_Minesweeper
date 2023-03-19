@@ -100,5 +100,11 @@ text-align: center !important;
 
 .centered-element{
     display: inline-block;
-  
+}
+
+.bootstrap-switch .bootstrap-switch-handle-on,
+.bootstrap-switch .bootstrap-switch-handle-off,
+.bootstrap-switch .bootstrap-switch-label {
+    display: inline-block;
+    vertical-align: baseline;
 }

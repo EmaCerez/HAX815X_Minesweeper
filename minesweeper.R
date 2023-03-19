@@ -29,6 +29,7 @@ server <- function(input, output, session) {
   #})
   
   
+  
   # -------------- Jeu ---------------------------------------------------------
   
   # Difficulté
@@ -46,7 +47,7 @@ server <- function(input, output, session) {
   
   
   # Bombes, disposition, score et drapeaux
-  bombs <- c(10, 40, 99, 120)
+  bombs <- c(10, 30, 70, 110)
   layout <- matrix(c(8, 10, 14, 18, 20, 24, 20, 24), ncol=4, nrow=2)
   
   column_number <- reactiveVal(8)
@@ -59,18 +60,74 @@ server <- function(input, output, session) {
  
   len_mat_jumps <- reactiveVal(90)
   
-  flags_left <- reactiveVal(0)
   points <- reactiveVal(0)
   
+  #var <- reactiveVal(FALSE)
+  
+  #observeEvent(input$flagMode, {
+  #  var(!var())
+  #  output$flagM <- var()
+  #})
   
   # Début de réactivité
   observe({
+    observeEvent(input$flagMode, {
+      variable_glo(input$flagMode)
+    })
+    
+    
+    
+    # Images -------------------------------------------------------------------
+    
+    n_tiles <- 26
+    
+    df <- img(src="images/tiles/df.png", height=32, width=32)
+    lf <- img(src="images/tiles/lf.png", height=32, width=32)
+    
+    db <- img(src="images/tiles/db.png", height=32, width=32)
+    lb <- img(src="images/tiles/lb.png", height=32, width=32)
+    
+    de <- img(src="images/tiles/de.png", height=32, width=32)
+    le <- img(src="images/tiles/le.png", height=32, width=32)
+    
+    dg <- img(src="images/tiles/dg.png", height=32, width=32)
+    lg <- img(src="images/tiles/lg.png", height=32, width=32)
+    
+    dr <- img(src="images/tiles/dr.png", height=32, width=32)
+    lr <- img(src="images/tiles/lr.png", height=32, width=32)
+    
+    dn <- c()
+    ln <- c()
+    
+    for (i in 1:8){
+      dn[i] <- paste0("images/tiles/d", i, ".png")
+      ln[i] <- paste0("images/tiles/l", i, ".png")
+    }
+    
+    d1 <- img(src=dn[1], height=32, width=32)
+    d2 <- img(src=dn[2], height=32, width=32)
+    d3 <- img(src=dn[3], height=32, width=32)
+    d4 <- img(src=dn[4], height=32, width=32)
+    d5 <- img(src=dn[5], height=32, width=32)
+    d6 <- img(src=dn[6], height=32, width=32)
+    d7 <- img(src=dn[7], height=32, width=32)
+    d8 <- img(src=dn[8], height=32, width=32)
+    
+    l1 <- img(src=ln[1], height=32, width=32)
+    l2 <- img(src=ln[2], height=32, width=32)
+    l3 <- img(src=ln[3], height=32, width=32)
+    l4 <- img(src=ln[4], height=32, width=32)
+    l5 <- img(src=ln[5], height=32, width=32)
+    l6 <- img(src=ln[6], height=32, width=32)
+    l7 <- img(src=ln[7], height=32, width=32)
+    l8 <- img(src=ln[8], height=32, width=32)
+    
+    
+    
+    # Difficulté ---------------------------------------------------------------
     
     flags_left(bombs[difficulty()])
   
-#    boutons_l_paire <- rep(c("lg", "dg"), column_number()/2)
-#    boutons_l_impai <- rep(c("dg", "lg"), column_number()/2)
-    
     matrice_valeurs <- initGrid(value=0, rows=row_number(), columns=column_number())
     matrice_valeurs <- generateGrid(matrice_valeurs, 
                                    rows=row_number(),
@@ -94,40 +151,57 @@ server <- function(input, output, session) {
     
     len_mat_jumps <- length(matrice_boutons) + row_number()
     
-    # Boutons ?
+    
+    # Boutons
     
     lignes <- rep(1:row_number(), each=column_number())
     buttons_ids <- c(paste0(lignes, "_", 1:column_number()))
-    #buttons_ids <- matrix(buttons_ids, nrow=row_number(), ncol=column_number(), byrow=TRUE)
     
     lapply(X = buttons_ids, function(x){
+      
       observeEvent(input[[x]], {
+        
         coordinates <- as.integer(unlist(strsplit(x=x, "_")))
         o <- coordinates[1]
         p <- coordinates[2]
         
         update <- updateButton(i=o, j=p, gridValues=matrice_valeurs)
         
-        if(update == "dr" | update == "lr"){
-          matrice_temp <- initGrid(value=FALSE, rows=row_number(), columns=column_number())
-          to_update <- revealBlock(i=o, j=p, grille=matrice_valeurs, visible=matrice_temp)
-          to_update <- to_coordinates(to_update)
-          for (i in 2:nrow(to_update)){
-            m <- to_update[i, 1]
-            n <- to_update[i, 2]
-            boutons$matrice_boutons[m, n] <- updateButton(i=m, j=n, gridValues=matrice_valeurs)
+        if(variable_glo()){
+          if (boutons$matrice_boutons[o, p] == "df" | boutons$matrice_boutons[o, p] == "lf"){
+            #nouvelleValeur <- as.integer(flags_left()) + 1
+            #flags_left(nouvelleValeur)
+            boutons$matrice_boutons[o, p] <- paste0(substr(boutons$matrice_boutons[o, p], 1, 1), "g")
+          } else {
+            #nouvelleValeur <- as.integer(flags_left()) + 1
+            #flags_left(nouvelleValeur)
+            boutons$matrice_boutons[o, p] <- paste0(substr(boutons$matrice_boutons[o, p], 1, 1), "f")
           }
-        } else if (update == "db" | update == "lb"){
-          boutons$matrice_boutons[o, p] <- paste0(substr(boutons$matrice_boutons[o, p], 1, 1), "b")
-          endgame()
         } else {
-          boutons$matrice_boutons[o, p] <- update
-        }
+          if (boutons$matrice_boutons[o, p] == "df" | boutons$matrice_boutons[o, p] == "lf"){
+            
+          } else if(update == "dr" | update == "lr"){
+            matrice_temp <- initGrid(value=FALSE, rows=row_number(), columns=column_number())
+            to_update <- revealBlock(i=o, j=p, grille=matrice_valeurs, visible=matrice_temp)
+            to_update <- to_coordinates(to_update)
+            for (i in 2:nrow(to_update)){
+              m <- to_update[i, 1]
+              n <- to_update[i, 2]
+              boutons$matrice_boutons[m, n] <- updateButton(i=m, j=n, gridValues=matrice_valeurs)
+            }
+          } else if (update == "db" | update == "lb"){
+            boutons$matrice_boutons[o, p] <- paste0(substr(boutons$matrice_boutons[o, p], 1, 1), "e")
+            endgame()
+          } else {
+            boutons$matrice_boutons[o, p] <- update
+          }
+        } # else
       }) # observeEvent
     }) # lapply
     
     
     # -------------- UI -------------------------------------------------------
+    
     
     # Informations menu
     output$informations <- renderUI(
@@ -164,6 +238,51 @@ server <- function(input, output, session) {
           time_UI("timer"),
         ),
       ),
+    )
+    
+    output$parameters <- renderUI(
+      
+      tags$div(
+        class = "top-container",
+        style = "margin-top: 0;
+                 border-top-left-radius: 0;
+                 border-top-right-radius: 0;
+                 border-top: 0;
+                 background-color: #dadada;",
+        tags$div(
+          style = "width: 33%;
+                   text-align: left;
+                   padding-left: 32px;
+                   font-weight: bold;",
+          
+          materialSwitch(
+            inputId = "colorblind",
+            label = "Colorblind", 
+            status = "success"
+          ),
+        ),
+          
+        tags$div(
+          style = "width: 33%;"
+        ),
+        
+        tags$div(
+          style = "width: 33%;
+                   text-align: right;
+                   padding-right: 32px;
+                   font-weight: bold;",
+          switchInput(
+            inputId = "flagMode",
+            label = paste0(icon("flag", lib="font-awesome"), "  Flag"),
+            value = variable_glo(),
+            handleWidth = 80, 
+            labelWidth = 80,
+            width = "200px",
+            size = "mini",
+            onStatus = "success"
+          )
+        )
+      )
     )
     
     
@@ -205,8 +324,6 @@ server <- function(input, output, session) {
       pauseHowl("Main theme")
     }
   })
-    
-  
 } # server
 
 
@@ -249,7 +366,7 @@ ui <- fluidPage(
     uiOutput("informations"),
     
     # Paramètres
-    # uiOutput("parameters"),
+    uiOutput("parameters"),
     
     # Jeu
     uiOutput("game")
