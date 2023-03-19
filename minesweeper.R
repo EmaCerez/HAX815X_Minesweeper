@@ -100,8 +100,6 @@ server <- function(input, output, session) {
     buttons_ids <- c(paste0(lignes, "_", 1:column_number()))
     #buttons_ids <- matrix(buttons_ids, nrow=row_number(), ncol=column_number(), byrow=TRUE)
     
-    print(buttons_ids)
-    
     lapply(X = buttons_ids, function(x){
       observeEvent(input[[x]], {
         coordinates <- as.integer(unlist(strsplit(x=x, "_")))
@@ -125,16 +123,8 @@ server <- function(input, output, session) {
         } else {
           boutons$matrice_boutons[o, p] <- update
         }
-        
-          
-        #runjs(paste0("$('label[for=\"x\"]').text('",TextVariable,"')"))
-        
-        #print(drapeaux$matrice_drapeaux[x, y])
-        #drapeaux$matrice_drapeaux[x, y] <- TRUE
-        #jeu$matrice_jeu[x, y] <- updateButton(i=x, j=y, gridFlags=drapeaux$matrice_drapeaux, gridValues = matrice_valeurs, gridHidden=matrice_cache)
-        #print(drapeaux$matrice_drapeaux[x, y])
-      })
-    })
+      }) # observeEvent
+    }) # lapply
     
     
     # -------------- UI -------------------------------------------------------
@@ -257,6 +247,9 @@ ui <- fluidPage(
     
     # Informations sur la partie
     uiOutput("informations"),
+    
+    # Paramètres
+    # uiOutput("parameters"),
     
     # Jeu
     uiOutput("game")
