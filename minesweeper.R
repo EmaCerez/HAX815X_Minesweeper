@@ -140,9 +140,9 @@ server <- function(input, output, session) {
     matrice_cache <- init_grid(value = TRUE, rows = row_number(), columns = column_number())
     matrice_drapeaux <- init_grid(value = FALSE, rows = row_number(), columns = column_number())
 
-    matrice_jeu <- generate_buttons(gridValues = matrice_valeurs,
-                                   gridFlags = matrice_drapeaux,
-                                   gridHidden = matrice_cache,
+    matrice_jeu <- generate_buttons(grid_values = matrice_valeurs,
+                                   grid_flags = matrice_drapeaux,
+                                   grid_hidden = matrice_cache,
                                    rows = row_number(),
                                    columns = column_number())
 
@@ -167,7 +167,7 @@ server <- function(input, output, session) {
         o <- coordinates[1]
         p <- coordinates[2]
 
-        update <- update_button(i = o, j = p, gridValues = matrice_valeurs)
+        update <- update_button(i = o, j = p, grid_values = matrice_valeurs)
 
         new_cells(0)
 
@@ -194,7 +194,7 @@ server <- function(input, output, session) {
               if (boutons$matrice_boutons[m, n] == "dg" | boutons$matrice_boutons[m, n] == "lg") {
                 new_cells(new_cells() + 1)
               }
-              boutons$matrice_boutons[m, n] <- update_button(i = m, j = n, gridValues  = matrice_valeurs)
+              boutons$matrice_boutons[m, n] <- update_button(i = m, j = n, grid_values  = matrice_valeurs)
             }
             points(points() + (new_cells() - flags_left())^2 * max(1, floor(100 - isolate(timer()))))
             cells_revealed(cells_revealed() + new_cells())
@@ -212,7 +212,7 @@ server <- function(input, output, session) {
                   for (j in 1:column_number()) {
                     if (i != o | j != p) {
                       if (boutons$matrice_boutons[i, j] != "df" & boutons$matrice_boutons[i, j] != "lf")
-                        boutons$matrice_boutons[i, j] <- update_button(i = i, j = j, gridValues = matrice_valeurs)
+                        boutons$matrice_boutons[i, j] <- update_button(i = i, j = j, grid_values = matrice_valeurs)
                     }
                   }
                 }
