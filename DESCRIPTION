@@ -1,0 +1,19 @@
+Package: HAX815.Proj
+Type: Package
+Title: MineSweeper
+Version: 1.0
+Authors@R: c(person(given = "Paul",
+                    family = "Crespin",
+                    role = c("aut"),
+                    email = "paulcrespin159@gmail.com"),
+             person(given = "Ema",
+                    family = "Cerezo",
+                    role = c("aut", "cre"),
+                    email = "m@gmail.com"))
+Description: A paragraph providing a full description of the project (on 
+    several lines...)
+Depends: shiny, png, shinyjs, beepr, shinyWidgets
+License: GPL (>= 2)
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.3
