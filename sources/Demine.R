@@ -197,7 +197,7 @@ jouer_partie <- function() {
           cat("Vous n'avez plus de drapeaux...")
           cat("\n")
         } else if (visible[i, j]) {
-          cat("Vous avez déjà creusez ici...")
+          cat("Vous ne pouvez pas placez de drapeaux là où vous avez déjà creusez...")
           cat("\n")
         } else {
           drapeaux[i, j] <- !drapeaux[i, j]
@@ -217,8 +217,13 @@ jouer_partie <- function() {
         afficher_grille(grille, visible, drapeaux)
         partie_terminee <- TRUE
       } else {
-        visible <- reveler_cases_adjacentes(grille, visible, i, j)
-        points <- calcul_points(points, ptm, cases, sum(visible))
+        if (visible[i,j]) {
+          cat("Vous avez déjà creusez ici...")
+          cat("\n")
+        } else {
+          visible <- reveler_cases_adjacentes(grille, visible, i, j)
+          points <- calcul_points(points, ptm, cases, sum(visible))
+        }
       }
     }
   }
