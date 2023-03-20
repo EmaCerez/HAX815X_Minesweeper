@@ -1,4 +1,4 @@
-Package: HAX815.Proj
+Package: HAX815
 Type: Package
 Title: MineSweeper
 Version: 1.0
@@ -13,7 +13,8 @@ Authors@R: c(person(given = "Paul",
 Description: A paragraph providing a full description of the project (on 
     several lines...)
 Depends: shiny, png, shinyjs, beepr, shinyWidgets
-License: file LICENSE.txt
+Imports: shiny, png, shinyjs, beepr, shinyWidgets
+License: GPL (>= 2)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
