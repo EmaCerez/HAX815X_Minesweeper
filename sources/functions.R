@@ -49,17 +49,7 @@ generate_buttons <- function(grid_values, grid_hidden, grid_flags, rows, columns
 update_button <- function(i, j, grid_values) {
   picture <- ""
   num <- grid_values[i, j] + 2
-  if (j %% 2 == 1 && i %% 2 == 0) {
-    picture <- switch(num,
-                      "db", "dr", "d1", "d2", "d3",
-                      "d4", "d5", "d6", "d7", "d8",
-                      "de", "df", "dg")
-  } else if (j %% 2 == 1 && i %% 2 == 1) {
-    picture <- switch(num,
-                      "lb", "lr", "l1", "l2", "l3",
-                      "l4", "l5", "l6", "l7", "l8",
-                      "le", "lf", "lg")
-  } else if (j %% 2 == 0 && i %% 2 == 1) {
+  if ((j %% 2 == 1 && i %% 2 == 0)||(j %% 2 == 0 && i %% 2 == 1)) {
     picture <- switch(num,
                       "db", "dr", "d1", "d2", "d3",
                       "d4", "d5", "d6", "d7", "d8",
@@ -80,17 +70,7 @@ convert_grid <- function(grid, rows, columns) {
     for (j in 1:columns){
       picture <- ""
       num <- as.integer(grid[i, j]) + 2
-      if (j %% 2 == 1 && i %% 2 == 0) {
-        picture <- switch(num,
-                          "db", "dr", "d1", "d2", "d3",
-                          "d4", "d5", "d6", "d7", "d8",
-                          "de", "df", "dg")
-      } else if (j %% 2 == 1 && i %% 2 == 1) {
-        picture <- switch(num,
-                          "lb", "lr", "l1", "l2", "l3",
-                          "l4", "l5", "l6", "l7", "l8",
-                          "le", "lf", "lg")
-      } else if (j %% 2 == 0 && i %% 2 == 1) {
+      if ((j %% 2 == 1 && i %% 2 == 0)||(j %% 2 == 0 && i %% 2 == 1)) {
         picture <- switch(num,
                           "db", "dr", "d1", "d2", "d3",
                           "d4", "d5", "d6", "d7", "d8",
