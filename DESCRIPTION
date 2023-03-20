@@ -13,7 +13,7 @@ Authors@R: c(person(given = "Paul",
 Description: A paragraph providing a full description of the project (on 
     several lines...)
 Depends: shiny, png, shinyjs, beepr, shinyWidgets
-License: GPL (>= 2)
+License: file LICENSE.txt
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
