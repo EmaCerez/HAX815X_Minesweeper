@@ -9,7 +9,7 @@ endgame_UI <- function(id) {
       style = "text-align: center;",
       "Game Over"
     ),
-    
+
     actionButton(
       inputId = ns("refresh"),
       label = h3("Try Again"),
@@ -21,10 +21,10 @@ endgame_UI <- function(id) {
 endgame <- function(input, output, session) {
   id <- gsub("-$", "", session$ns(""))
   showModal(ui = endgame_UI(id))
-  
+
   observeEvent(input$refresh, {
     refresh()
   })
-  
+
   return(reactive(input$refresh))
 }
