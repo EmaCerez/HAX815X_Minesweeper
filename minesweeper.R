@@ -173,12 +173,12 @@ server <- function(input, output, session) {
 
         if (variable_glo()) {
           if (boutons$matrice_boutons[o, p] == "df" | boutons$matrice_boutons[o, p] == "lf") {
-            #nouvelleValeur <- as.integer(flags_left()) + 1
-            #flags_left(nouvelleValeur)
+            nouvelleValeur <- as.integer(flags_left()) + 1
+            flags_left(nouvelleValeur)
             boutons$matrice_boutons[o, p] <- paste0(substr(boutons$matrice_boutons[o, p], 1, 1), "g")
           } else if (boutons$matrice_boutons[o, p] == "dg" | boutons$matrice_boutons[o, p] == "lg") {
-            #nouvelleValeur <- as.integer(flags_left()) - 1
-            #flags_left(nouvelleValeur)
+            nouvelleValeur <- as.integer(flags_left()) - 1
+            flags_left(nouvelleValeur)
             boutons$matrice_boutons[o, p] <- paste0(substr(boutons$matrice_boutons[o, p], 1, 1), "f")
           }
         } else {
