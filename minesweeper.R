@@ -18,6 +18,8 @@ source("global.R")
 
 server <- function(input, output, session) {
   
+  cells_revealed(0)
+  
   # Appels
   start <- callModule(module = welcome, id = "welcome")
   timer <- callModule(module = time, id = "timer", start = start)
@@ -168,20 +170,21 @@ server <- function(input, output, session) {
     lapply(X = buttons_ids, function(x){
       
       observeEvent(input[[x]], {
-        
         coordinates <- as.integer(unlist(strsplit(x=x, "_")))
         o <- coordinates[1]
         p <- coordinates[2]
         
         update <- updateButton(i=o, j=p, gridValues=matrice_valeurs)
         
+        new_cells(0)
+        
         if(variable_glo()){
           if (boutons$matrice_boutons[o, p] == "df" | boutons$matrice_boutons[o, p] == "lf"){
             #nouvelleValeur <- as.integer(flags_left()) + 1
             #flags_left(nouvelleValeur)
             boutons$matrice_boutons[o, p] <- paste0(substr(boutons$matrice_boutons[o, p], 1, 1), "g")
-          } else {
-            #nouvelleValeur <- as.integer(flags_left()) + 1
+          } else if (boutons$matrice_boutons[o, p] == "dg" | boutons$matrice_boutons[o, p] == "lg") {
+            #nouvelleValeur <- as.integer(flags_left()) - 1
             #flags_left(nouvelleValeur)
             boutons$matrice_boutons[o, p] <- paste0(substr(boutons$matrice_boutons[o, p], 1, 1), "f")
           }
@@ -195,12 +198,21 @@ server <- function(input, output, session) {
             for (i in 2:nrow(to_update)){
               m <- to_update[i, 1]
               n <- to_update[i, 2]
+              if (boutons$matrice_boutons[m, n] == "dg" | boutons$matrice_boutons[m, n] == "lg"){
+                new_cells(new_cells() + 1)
+              }
               boutons$matrice_boutons[m, n] <- updateButton(i=m, j=n, gridValues=matrice_valeurs)
+            }
+            cells_revealed(cells_revealed() + new_cells())
+            new_cells(0)
+            if (cells_revealed() == row_number() * column_number() - flags_left()) {
+              win <- callModule(module = win, id = "win")
             }
           } else if (update == "db" | update == "lb"){
             boutons$matrice_boutons[o, p] <- paste0(substr(boutons$matrice_boutons[o, p], 1, 1), "b")
             delay(ms=500, expr={
               boutons$matrice_boutons[o, p] <- paste0(substr(boutons$matrice_boutons[o, p], 1, 1), "e")
+              beep(1)
               delay(ms=1000, expr={
                 for (i in 1:row_number()) {
                   for (j in 1:column_number()) {
@@ -216,6 +228,10 @@ server <- function(input, output, session) {
             
           } else {
             boutons$matrice_boutons[o, p] <- update
+            cells_revealed(cells_revealed() + 1)
+            if (cells_revealed() == row_number() * column_number() - flags_left()) {
+              win <- callModule(module = win, id = "win")
+            }
           }
         } # else
       }) # observeEvent
