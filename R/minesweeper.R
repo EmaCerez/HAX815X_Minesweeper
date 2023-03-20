@@ -210,8 +210,13 @@ server <- function(input, output, session) {
             for (i in 2:nrow(to_update)){
               m <- to_update[i, 1]
               n <- to_update[i, 2]
-              if (boutons$matrice_boutons[m, n] == "dg" | boutons$matrice_boutons[m, n] == "lg") {
+              if (boutons$matrice_boutons[m, n] == "dg" | boutons$matrice_boutons[m, n] == "lg" 
+                  | boutons$matrice_boutons[m, n] == "df" | boutons$matrice_boutons[m, n] == "lf") {
                 new_cells(new_cells() + 1)
+                if (boutons$matrice_boutons[m, n] == "df" | boutons$matrice_boutons[m, n] == "lf"){
+                  nouvelleValeur <- as.integer(flags_left()) + 1
+                  flags_left(nouvelleValeur)
+                }
               }
               boutons$matrice_boutons[m, n] <- update_button(i = m, j = n, grid_values  = matrice_valeurs)
             }
