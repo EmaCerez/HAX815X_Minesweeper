@@ -40,6 +40,8 @@ welcome_UI <- function(id) {
     
     hr(),
     
+    uiOutput(outputId="colorblindness"),
+    
     fluidRow(verbatimTextOutput("value")),
     
     footer = actionButton(

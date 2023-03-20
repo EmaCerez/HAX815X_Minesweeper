@@ -75,33 +75,41 @@ server <- function(input, output, session) {
       variable_glo(input$flagMode)
     })
     
-    
+    observeEvent(input$colorblind, {
+      colorbl(input$colorblind)
+    })
     
     # Images -------------------------------------------------------------------
     
     n_tiles <- 26
     
-    df <- img(src="images/tiles/df.png", height=32, width=32)
-    lf <- img(src="images/tiles/lf.png", height=32, width=32)
+    path <- "images/tiles"
     
-    db <- img(src="images/tiles/db.png", height=32, width=32)
-    lb <- img(src="images/tiles/lb.png", height=32, width=32)
+    if (colorbl()) {
+      path <- paste0(path, "D")
+    } 
     
-    de <- img(src="images/tiles/de.png", height=32, width=32)
-    le <- img(src="images/tiles/le.png", height=32, width=32)
+    df <- img(src=paste0(path, "/df.png"), height=32, width=32)
+    lf <- img(src=paste0(path, "/lf.png"), height=32, width=32)
     
-    dg <- img(src="images/tiles/dg.png", height=32, width=32)
-    lg <- img(src="images/tiles/lg.png", height=32, width=32)
+    db <- img(src=paste0(path, "/db.png"), height=32, width=32)
+    lb <- img(src=paste0(path, "/lb.png"), height=32, width=32)
     
-    dr <- img(src="images/tiles/dr.png", height=32, width=32)
-    lr <- img(src="images/tiles/lr.png", height=32, width=32)
+    de <- img(src=paste0(path, "/de.png"), height=32, width=32)
+    le <- img(src=paste0(path, "/le.png"), height=32, width=32)
+    
+    dg <- img(src=paste0(path, "/dg.png"), height=32, width=32)
+    lg <- img(src=paste0(path, "/lg.png"), height=32, width=32)
+    
+    dr <- img(src=paste0(path, "/dr.png"), height=32, width=32)
+    lr <- img(src=paste0(path, "/lr.png"), height=32, width=32)
     
     dn <- c()
     ln <- c()
     
     for (i in 1:8){
-      dn[i] <- paste0("images/tiles/d", i, ".png")
-      ln[i] <- paste0("images/tiles/l", i, ".png")
+      dn[i] <- paste0(path, "/d", i, ".png")
+      ln[i] <- paste0(path, "/l", i, ".png")
     }
     
     d1 <- img(src=dn[1], height=32, width=32)
@@ -190,8 +198,22 @@ server <- function(input, output, session) {
               boutons$matrice_boutons[m, n] <- updateButton(i=m, j=n, gridValues=matrice_valeurs)
             }
           } else if (update == "db" | update == "lb"){
-            boutons$matrice_boutons[o, p] <- paste0(substr(boutons$matrice_boutons[o, p], 1, 1), "e")
-            endgame()
+            boutons$matrice_boutons[o, p] <- paste0(substr(boutons$matrice_boutons[o, p], 1, 1), "b")
+            delay(ms=500, expr={
+              boutons$matrice_boutons[o, p] <- paste0(substr(boutons$matrice_boutons[o, p], 1, 1), "e")
+              delay(ms=1000, expr={
+                for (i in 1:row_number()) {
+                  for (j in 1:column_number()) {
+                    if (i != o | j != p) {
+                      if (boutons$matrice_boutons[i, j] != "df" & boutons$matrice_boutons[i, j] != "lf")
+                        boutons$matrice_boutons[i, j] <- updateButton(i=i, j=j, gridValues=matrice_valeurs)
+                    }
+                  }
+                }
+                lose <- callModule(module = endgame, id = "endgame")
+              })
+            })
+            
           } else {
             boutons$matrice_boutons[o, p] <- update
           }
@@ -228,7 +250,7 @@ server <- function(input, output, session) {
                   font-weight: bold; 
                   width: 33%;",
           tags$style(".fa-flag {color: #DF2E38; font-size: 83%}"),
-          icon("flag", lib="font-awesome"),
+          icon("bomb", lib="font-awesome"),
           flags_left()
         ),
         
@@ -249,25 +271,13 @@ server <- function(input, output, session) {
                  border-top-right-radius: 0;
                  border-top: 0;
                  background-color: #dadada;",
-        tags$div(
-          style = "width: 33%;
-                   text-align: left;
-                   padding-left: 32px;
-                   font-weight: bold;",
-          
-          materialSwitch(
-            inputId = "colorblind",
-            label = "Colorblind", 
-            status = "success"
-          ),
-        ),
           
         tags$div(
-          style = "width: 33%;"
+          style = "width: 50%;"
         ),
         
         tags$div(
-          style = "width: 33%;
+          style = "width: 50%;
                    text-align: right;
                    padding-right: 32px;
                    font-weight: bold;",
@@ -315,7 +325,27 @@ server <- function(input, output, session) {
         ) # div grille
       ) # div bottom container
     ) # renderUI output$game
+    
+    
+    output$colorblindness <- renderUI(
+      tags$div(
+        style = "width: 100%;
+                   text-align: left;
+                   padding-left: 210px;
+                   font-weight: bold;",
+        
+        materialSwitch(
+          inputId = "colorblind",
+          label = "Colorblind", 
+          status = "success",
+          value = colorbl()
+        ),
+      ),
+    ) # renderUI output$colorblindness
   }) # observe
+  
+  
+  
   
   # musique
   observe({

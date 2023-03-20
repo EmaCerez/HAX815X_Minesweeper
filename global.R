@@ -12,6 +12,7 @@ library("shinyWidgets")
 
 source("modules/time-module.R")
 source("modules/welcome-module.R")
+source("modules/endgame-module.R")
 
 
 # Functions
@@ -21,5 +22,7 @@ source("modules/welcome-module.R")
 
 
 variable_glo <- reactiveVal(FALSE)
+
+colorbl <- reactiveVal(FALSE)
 
 flags_left <- reactiveVal(0)
