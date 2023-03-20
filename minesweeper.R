@@ -129,8 +129,9 @@ server <- function(input, output, session) {
 
     # Difficulté ---------------------------------------------------------------
 
-    flags_left(bombs[difficulty()])
-
+    bombs_total(bombs[difficulty()])
+    flags_left(bombs_total())
+    
     matrice_valeurs <- init_grid(value = 0, rows = row_number(), columns = column_number())
     matrice_valeurs <- generate_grid(matrice_valeurs,
                                    rows = row_number(),
@@ -172,15 +173,24 @@ server <- function(input, output, session) {
         new_cells(0)
 
         if (variable_glo()) {
-          if (boutons$matrice_boutons[o, p] == "df" | boutons$matrice_boutons[o, p] == "lf") {
-            nouvelleValeur <- as.integer(flags_left()) + 1
-            flags_left(nouvelleValeur)
-            boutons$matrice_boutons[o, p] <- paste0(substr(boutons$matrice_boutons[o, p], 1, 1), "g")
-          } else if (boutons$matrice_boutons[o, p] == "dg" | boutons$matrice_boutons[o, p] == "lg") {
-            nouvelleValeur <- as.integer(flags_left()) - 1
-            flags_left(nouvelleValeur)
-            boutons$matrice_boutons[o, p] <- paste0(substr(boutons$matrice_boutons[o, p], 1, 1), "f")
+          if (flags_left() > 0) {
+            if (boutons$matrice_boutons[o, p] == "df" | boutons$matrice_boutons[o, p] == "lf") {
+              nouvelleValeur <- as.integer(flags_left()) + 1
+              flags_left(nouvelleValeur)
+              boutons$matrice_boutons[o, p] <- paste0(substr(boutons$matrice_boutons[o, p], 1, 1), "g")
+            } else if (boutons$matrice_boutons[o, p] == "dg" | boutons$matrice_boutons[o, p] == "lg") {
+              nouvelleValeur <- as.integer(flags_left()) - 1
+              flags_left(nouvelleValeur)
+              boutons$matrice_boutons[o, p] <- paste0(substr(boutons$matrice_boutons[o, p], 1, 1), "f")
+            }
+          } else {
+            if (boutons$matrice_boutons[o, p] == "df" | boutons$matrice_boutons[o, p] == "lf") {
+              nouvelleValeur <- as.integer(flags_left()) + 1
+              flags_left(nouvelleValeur)
+              boutons$matrice_boutons[o, p] <- paste0(substr(boutons$matrice_boutons[o, p], 1, 1), "g")
+            }
           }
+          
         } else {
           if (boutons$matrice_boutons[o, p] == "df" | boutons$matrice_boutons[o, p] == "lf") {
 
@@ -196,10 +206,10 @@ server <- function(input, output, session) {
               }
               boutons$matrice_boutons[m, n] <- update_button(i = m, j = n, grid_values  = matrice_valeurs)
             }
-            points(points() + (new_cells() - flags_left())^2 * max(1, floor(100 - isolate(timer()))))
+            points(points() + (new_cells() - bombs_total())^2 * max(1, floor(100 - isolate(timer()))))
             cells_revealed(cells_revealed() + new_cells())
             new_cells(0)
-            if (cells_revealed() == row_number() * column_number() - flags_left()) {
+            if (cells_revealed() == row_number() * column_number() - bombs_total()) {
               win <- callModule(module = win, id = "win", score = isolate(points()), time = isolate(timer()))
             }
           } else if (update == "db" | update == "lb") {
@@ -223,8 +233,8 @@ server <- function(input, output, session) {
           } else {
             boutons$matrice_boutons[o, p] <- update
             cells_revealed(cells_revealed() + 1)
-            points(points() + (1 - flags_left())^2 * max(1, floor(100 - isolate(timer()))))
-            if (cells_revealed() == row_number() * column_number() - flags_left()) {
+            points(points() + (1 - bombs_total())^2 * max(1, floor(100 - isolate(timer()))))
+            if (cells_revealed() == row_number() * column_number() - bombs_total()) {
               win <- callModule(module = win, id = "win", score = isolate(points()), time = isolate(timer()))
             }
           }
@@ -261,7 +271,7 @@ server <- function(input, output, session) {
                   font-weight: bold; 
                   width: 33%;",
           tags$style(".fa-flag {color: #DF2E38; font-size: 83%}"),
-          icon("bomb", lib = "font-awesome"),
+          icon("flag", lib = "font-awesome"),
           flags_left()
         ),
 

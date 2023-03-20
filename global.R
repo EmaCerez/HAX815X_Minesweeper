@@ -29,6 +29,8 @@ colorbl <- reactiveVal(FALSE)
 
 cells_revealed <- reactiveVal(0)
 
+bombs_total <- reactiveVal(0)
+
 flags_left <- reactiveVal(0)
 
 points <- reactiveVal(0)
