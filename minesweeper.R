@@ -192,7 +192,16 @@ server <- function(input, output, session) {
           }
           
         } else {
-          if (boutons$matrice_boutons[o, p] == "df" | boutons$matrice_boutons[o, p] == "lf") {
+          if (boutons$matrice_boutons[o, p] == "df" | boutons$matrice_boutons[o, p] == "lf" |
+              boutons$matrice_boutons[o, p] == "dr" | boutons$matrice_boutons[o, p] == "lr" |
+              boutons$matrice_boutons[o, p] == "d1" | boutons$matrice_boutons[o, p] == "l1" |
+              boutons$matrice_boutons[o, p] == "d2" | boutons$matrice_boutons[o, p] == "l2" |
+              boutons$matrice_boutons[o, p] == "d3" | boutons$matrice_boutons[o, p] == "l3" |
+              boutons$matrice_boutons[o, p] == "d4" | boutons$matrice_boutons[o, p] == "l4" |
+              boutons$matrice_boutons[o, p] == "d5" | boutons$matrice_boutons[o, p] == "l5" |
+              boutons$matrice_boutons[o, p] == "d6" | boutons$matrice_boutons[o, p] == "l6" |
+              boutons$matrice_boutons[o, p] == "d7" | boutons$matrice_boutons[o, p] == "l7" |
+              boutons$matrice_boutons[o, p] == "d8" | boutons$matrice_boutons[o, p] == "l8") {
 
           } else if (update == "dr" | update == "lr") {
             matrice_temp <- init_grid(value = FALSE, rows = row_number(), columns = column_number())
