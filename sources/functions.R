@@ -144,8 +144,3 @@ to_coordinates <- function(matrice) {
   }
   return(coordinates)
 }
-
-
-endgame <- function(){
-  
-}

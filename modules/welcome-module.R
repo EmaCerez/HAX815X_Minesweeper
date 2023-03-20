@@ -11,11 +11,25 @@ welcome_UI <- function(id) {
     
     tags$div(
       style = "text-align: center;",
-      tags$p("Find all the bombs as soon as possible!"),
-      tags$p("Left click on a case to reveal what's underneath"),
-      tags$p("Numbers on cases indicate how many bombs there are around it"),
-      tags$p("When you think you've found a bomb, right click on the case to plant a flag"),
-      tags$p("When you're ready, click button below to select difficulty !")
+      tags$div(
+        style="text-align: center; display: flex;",
+        tags$div(
+          style="width: 20%; text-align:right;",
+          img(src="images/bomb_wake.png", align = "center"),
+        ),
+        tags$div(
+          style="width: 60%; padding-top: 20px; font-weight: bold;",
+          tags$p("Reveal all the cells without exploding!"),
+        ),
+        tags$div(
+          style="width: 20%; text-align:left;",
+          img(src="images/bomb_wake.png", align = "center")
+        ),
+      ),
+      tags$p("Left click on a cell to reveal what's underneath"),
+      tags$p("The number on a cell indicate how many bombs there are around it"),
+      tags$p("You may plant flags on suspicious-looking cells"),
+      tags$p("When you're ready, pick a difficulty and click the button below to play the game!")
     ), 
     
     tags$br(),

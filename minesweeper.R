@@ -19,17 +19,8 @@ source("global.R")
 server <- function(input, output, session) {
   
   cells_revealed(0)
-  
-  # Appels
   start <- callModule(module = welcome, id = "welcome")
   timer <- callModule(module = time, id = "timer", start = start)
-  
-  # Boutons
-  #observeEvent(input$do, {
-  #  session$sendCustomMessage(type = 'testmessage',
-  #                            message = 'Thank you for clicking')
-  #})
-  
   
   
   # -------------- Jeu ---------------------------------------------------------
@@ -49,6 +40,7 @@ server <- function(input, output, session) {
   
   
   # Bombes, disposition, score et drapeaux
+  #bombs <- c(1, 30, 70, 110) #debug
   bombs <- c(10, 30, 70, 110)
   layout <- matrix(c(8, 10, 14, 18, 20, 24, 20, 24), ncol=4, nrow=2)
   
@@ -203,10 +195,11 @@ server <- function(input, output, session) {
               }
               boutons$matrice_boutons[m, n] <- updateButton(i=m, j=n, gridValues=matrice_valeurs)
             }
+            points(points() + (new_cells() - flags_left())^2 * max(1, floor(100 - isolate(timer()))))
             cells_revealed(cells_revealed() + new_cells())
             new_cells(0)
             if (cells_revealed() == row_number() * column_number() - flags_left()) {
-              win <- callModule(module = win, id = "win")
+              win <- callModule(module = win, id = "win", score=isolate(points()), time=isolate(timer()))
             }
           } else if (update == "db" | update == "lb"){
             boutons$matrice_boutons[o, p] <- paste0(substr(boutons$matrice_boutons[o, p], 1, 1), "b")
@@ -229,8 +222,9 @@ server <- function(input, output, session) {
           } else {
             boutons$matrice_boutons[o, p] <- update
             cells_revealed(cells_revealed() + 1)
+            points(points() + (1 - flags_left())^2 * max(1, floor(100 - isolate(timer()))))
             if (cells_revealed() == row_number() * column_number() - flags_left()) {
-              win <- callModule(module = win, id = "win")
+              win <- callModule(module = win, id = "win", score=isolate(points()), time=isolate(timer()))
             }
           }
         } # else
@@ -293,20 +287,41 @@ server <- function(input, output, session) {
         ),
         
         tags$div(
-          style = "width: 50%;
+          style = "width: 40%;
+                   text-align: right;
+                   padding-right: 0;
+                   font-weight: bold;
+                   display: inline-block;",
+          icon("flag", lib="font-awesome"),
+          "  Flag   "
+        ),
+        
+        tags$div(
+          style = "width: 10%;
                    text-align: right;
                    padding-right: 32px;
-                   font-weight: bold;",
-          switchInput(
+                   font-weight: bold;
+                   display: inline-block;",
+          
+          prettySwitch(
             inputId = "flagMode",
-            label = paste0(icon("flag", lib="font-awesome"), "  Flag"),
+            label = NULL, 
+            status = "success",
             value = variable_glo(),
-            handleWidth = 80, 
-            labelWidth = 80,
-            width = "200px",
-            size = "mini",
-            onStatus = "success"
-          )
+            fill = TRUE
+          ),
+          
+          
+#          switchInput(
+#            inputId = "flagMode",
+#            label = paste0(icon("flag", lib="font-awesome"), "  Flag"),
+#            value = variable_glo(),
+#            handleWidth = 80, 
+#            labelWidth = 80,
+#            width = "200px",
+#            size = "mini",
+#            onStatus = "success"
+#          )
         )
       )
     )

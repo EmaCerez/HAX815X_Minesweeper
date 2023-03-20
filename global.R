@@ -31,4 +31,6 @@ cells_revealed <- reactiveVal(0)
 
 flags_left <- reactiveVal(0)
 
+points <- reactiveVal(0)
+
 new_cells <- reactiveVal(0)
