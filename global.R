@@ -19,8 +19,8 @@ source("modules/win-module.R")
 
 # Functions
 
-#source("sources/Démine.R")
-#source("sources/functions.R")
+source("sources/Demine.R")
+source("sources/functions.R")
 
 
 variable_glo <- reactiveVal(FALSE)

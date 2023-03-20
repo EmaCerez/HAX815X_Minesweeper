@@ -238,5 +238,3 @@ jouer_partie <- function() {
 #-etc.
 
 #A rajouter, le nombre de drapeaux au début, avant la regénération de la grille (fait)
-
-jouer_partie()
