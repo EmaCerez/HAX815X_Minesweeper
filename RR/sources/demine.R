@@ -2,23 +2,56 @@
 
 ## Fonction pour afficher la grille
 afficher_grille <- function(grille, visible, drapeaux) {
-  for (i in 1:nrow(grille)) {
-    for (j in 1:ncol(grille)) {
-      if (visible[i, j]) {
-        if (grille[i, j] == -2) {
-          cat("F ")
-        } else if (grille[i, j] == -1) {
-          cat("* ")
-        } else {
-          cat(grille[i, j], "")
-        }
-      } else if (drapeaux[i, j]) {
-        cat("D ")
-      } else {
-        cat("# ")
+  
+  espace <- ""
+  if (nrow(grille) >= 10) {
+    espace <- " "
+  }
+  for (i in 0:nrow(grille)) {
+    if (i == 0) {
+      cat(espace, " ")
+      for (j in 1:ncol(grille)) {
+        cat(j, "")
       }
+      cat("\n")
+    } else {
+      cat(i, "")
+      if (i < 10) {
+        cat(espace)
+      }
+      for (j in 1:ncol(grille)) {
+        if (j <= 10) {
+          if (visible[i, j]) {
+            if (grille[i, j] == -2) {
+              cat("F ")
+            } else if (grille[i, j] == -1) {
+              cat("* ")
+            } else {
+              cat(grille[i, j], "")
+            }
+          } else if (drapeaux[i, j]) {
+            cat("D ")
+          } else {
+            cat("# ")
+          }
+        } else {
+          if (visible[i, j]) {
+            if (grille[i, j] == -2) {
+              cat("F  ")
+            } else if (grille[i, j] == -1) {
+              cat("*  ")
+            } else {
+              cat(grille[i, j], " ")
+            }
+          } else if (drapeaux[i, j]) {
+            cat("D  ")
+          } else {
+            cat("#  ")
+          }
+        }
+      }
+      cat("\n")
     }
-    cat("\n")
   }
 }
 
