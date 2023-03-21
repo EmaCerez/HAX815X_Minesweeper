@@ -463,8 +463,10 @@ ui <- fluidPage(
 )
 
 # Lancement --------------------------------------------------------------------
+shinyOptions(cache = cachem::cache_disk("/www/images"))
 
-  addResourcePath('images', system.file('/www/images', package = 'HAX815'))
+  addResourcePath("images", system.file("/www/images", package = "HAX815"))
+
 
   shinyApp(ui = ui, server = server)
 }
