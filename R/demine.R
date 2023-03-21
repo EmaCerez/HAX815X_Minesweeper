@@ -158,6 +158,8 @@ calcul_points <- function(points, temps_depart, nb_cases, nb_nouvelles_cases) {
 #' Play a game of minesweeper.
 #'
 #' @return Each time the player makes a move, the function prints the new state of the game. At the end of the game, the function prints if he lost or won and his number of points.
+#'
+#' @export
 
 jouer_partie <- function() {
 
