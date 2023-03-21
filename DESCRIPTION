@@ -10,10 +10,9 @@ Authors@R: c(person(given = "Paul",
                     family = "Cerezo",
                     role = c("aut", "cre"),
                     email = "m@gmail.com"))
-Description: A paragraph providing a full description of the project (on 
-    several lines...)
-Depends: shiny, png, shinyjs, beepr, shinyWidgets
-Imports: shiny, png, shinyjs, beepr, shinyWidgets
+Description: Get this MineSweeper game, one with a graphic interface, the other directly in your terminal!
+Depends: shiny, png, shinyjs, beepr
+Imports: shiny, png, shinyjs, beepr
 License: GPL (>= 2)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
