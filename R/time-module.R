@@ -1,7 +1,11 @@
-
-
 # Time -------------------------------------------------------------
 
+#' Time module
+#'
+#' @param id The module id
+#' @return A reactive value with the time in seconds
+#'
+#' @export
 
 time_UI <- function(id) {
   ns <- NS(id)
@@ -14,6 +18,16 @@ time_UI <- function(id) {
     "s"
   )
 }
+
+#' Time module
+#' 
+#' @param input 
+#' @param output
+#' @param session
+#' @param start A reactive value that starts the timer
+#' @return A reactive value with the time in seconds
+#'
+#' @export
 
 time <- function(input, output, session, start = reactive(0)) {
 

@@ -1,6 +1,13 @@
-
 # Victory pop-up ----------------------------------------------------------
 
+#' Victory pop-up
+#'
+#' @param id The module id
+#' @param score The score
+#' @param time The time
+#' @return A modal dialog
+#'
+#' @export
 
 win_UI <- function(id, score, time) {
   ns <- NS(id)
@@ -55,6 +62,17 @@ win_UI <- function(id, score, time) {
     )
   )
 }
+
+#' Victory pop-up
+#'
+#' @param input
+#' @param output
+#' @param session
+#' @param score The score
+#' @param time The time
+#' @return A reactive value that refreshes the page
+#'
+#' @export
 
 win <- function(input, output, session, score, time) {
   id <- gsub("-$", "", session$ns(""))

@@ -1,18 +1,50 @@
-
+#'
+#'
+#' @param
+#' @param
+#' @return
+#'
+#' @export
 
 asc <- function(x) {
   strtoi(charToRaw(x), 16L) - 96
 }
 
+#'
+#'
+#' @param
+#' @param
+#' @return
+#'
+#' @export
+
 chr <- function(n) {
   rawToChar(as.raw(n + 96))
 }
+
+#' Initialize the grid
+#'
+#' @param rows The number of rows
+#' @param columns The number of columns
+#' @param value The value to fill the grid with
+#' @return A matrix of the specified size filled with the specified value
+#'
+#' @export
 
 init_grid <- function(rows, columns, value) {
   grid <- matrix(value, nrow = rows, ncol = columns)
   return(grid)
 }
 
+#' Generate the grid with the mines
+#'
+#' @param grid The grid
+#' @param rows The number of rows
+#' @param columns The number of columns
+#' @param bombs The number of bombs
+#' @return The grid with the mines
+#'
+#' @export
 
 generate_grid <- function(grid, rows, columns, bombs) {
   mines <- sample(1:(rows * columns), bombs)
@@ -28,6 +60,16 @@ generate_grid <- function(grid, rows, columns, bombs) {
   return(grid)
 }
 
+#'
+#'
+#' @param grid_values The grid of values
+#' @param grid_hidden The grid of hidden cells
+#' @param grid_flags The grid of flags
+#' @param rows The number of rows
+#' @param columns The number of columns
+#' @return The grid of buttons
+#'
+#' @export
 
 generate_buttons <- function(grid_values, grid_hidden, grid_flags, rows, columns) {
   grid <- init_grid(value = 0, rows = rows, columns = columns)
@@ -45,6 +87,14 @@ generate_buttons <- function(grid_values, grid_hidden, grid_flags, rows, columns
   return(grid)
 }
 
+#'
+#'
+#' @param i The row
+#' @param j The column
+#' @param grid_values The grid of values
+#' @return
+#'
+#' @export
 
 update_button <- function(i, j, grid_values) {
   picture <- ""
@@ -63,7 +113,14 @@ update_button <- function(i, j, grid_values) {
   return(picture)
 }
 
-
+#' Update the grid
+#'
+#' @param grid The grid to update
+#' @param rows The number of rows
+#' @param columns The number of columns
+#' @return The updated grid
+#'
+#' @export
 
 convert_grid <- function(grid, rows, columns) {
   for (i in 1:rows) {
@@ -89,6 +146,13 @@ convert_grid <- function(grid, rows, columns) {
   return(grid)
 }
 
+#'
+#'
+#' @param
+#' @param
+#' @return
+#'
+#' @export
 
 reveal_block <-  function(grille, visible, i, j) {
   if (visible[i, j]) {
@@ -108,6 +172,13 @@ reveal_block <-  function(grille, visible, i, j) {
   return(visible)
 }
 
+#' 
+#'
+#' @param
+#' @param
+#' @return
+#'
+#' @export
 
 to_coordinates <- function(matrice) {
   r <- nrow(matrice)

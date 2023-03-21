@@ -1,5 +1,3 @@
-
-
 # Packages
 
 library("shiny")
@@ -11,16 +9,16 @@ library("beepr")
 
 # Modules
 
-source("R/modules/time-module.R")
-source("R/modules/welcome-module.R")
-source("R/modules/endgame-module.R")
-source("R/modules/win-module.R")
+source("R/time-module.R")
+source("R/welcome-module.R")
+source("R/endgame-module.R")
+source("R/win-module.R")
 
 
 # Functions
 
-source("R/sources/demine.R")
-source("R/sources/functions.R")
+source("R/demine.R")
+source("R/functions.R")
 
 
 variable_glo <- reactiveVal(FALSE)

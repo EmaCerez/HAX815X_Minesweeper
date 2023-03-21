@@ -1,4 +1,3 @@
-
 #  -----------------------------------------------------------------------------
 #
 # Title : Minesweeper
@@ -8,8 +7,14 @@
 #  -----------------------------------------------------------------------------
 
 source("R/global.R")
-  
+
 # RShiny App -------------------------------------------------------------------
+
+#' Minesweeper
+#' 
+#' @return The game in the browser
+#'
+#' @export
 
 run_app <- function() {
 
@@ -174,18 +179,18 @@ server <- function(input, output, session) {
         if (variable_glo()) {
           if (flags_left() > 0) {
             if (boutons$matrice_boutons[o, p] == "df" | boutons$matrice_boutons[o, p] == "lf") {
-              nouvelleValeur <- as.integer(flags_left()) + 1
-              flags_left(nouvelleValeur)
+              nouvelle_valeur <- as.integer(flags_left()) + 1
+              flags_left(nouvelle_valeur)
               boutons$matrice_boutons[o, p] <- paste0(substr(boutons$matrice_boutons[o, p], 1, 1), "g")
             } else if (boutons$matrice_boutons[o, p] == "dg" | boutons$matrice_boutons[o, p] == "lg") {
-              nouvelleValeur <- as.integer(flags_left()) - 1
-              flags_left(nouvelleValeur)
+              nouvelle_valeur <- as.integer(flags_left()) - 1
+              flags_left(nouvelle_valeur)
               boutons$matrice_boutons[o, p] <- paste0(substr(boutons$matrice_boutons[o, p], 1, 1), "f")
             }
           } else {
             if (boutons$matrice_boutons[o, p] == "df" | boutons$matrice_boutons[o, p] == "lf") {
-              nouvelleValeur <- as.integer(flags_left()) + 1
-              flags_left(nouvelleValeur)
+              nouvelle_valeur <- as.integer(flags_left()) + 1
+              flags_left(nouvelle_valeur)
               boutons$matrice_boutons[o, p] <- paste0(substr(boutons$matrice_boutons[o, p], 1, 1), "g")
             }
           }
@@ -410,7 +415,7 @@ server <- function(input, output, session) {
 
 
 # UI
-  
+
 ui <- fluidPage(
 
   useShinyjs(),
@@ -459,7 +464,7 @@ ui <- fluidPage(
 
 # Lancement --------------------------------------------------------------------
 
-  addResourcePath('images', system.file('R/www/images', package='HAX815'))
+  addResourcePath("images", system.file("R/www/images", package = "HAX815"))
 
   shinyApp(ui = ui, server = server)
 }

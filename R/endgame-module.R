@@ -1,6 +1,11 @@
-
 # Endgame pop-up ----------------------------------------------------------
 
+#' Endgame pop-up
+#'
+#' @param id The module id
+#' @return A modal dialog
+#'
+#' @export
 
 endgame_UI <- function(id) {
   ns <- NS(id)
@@ -17,6 +22,14 @@ endgame_UI <- function(id) {
     )
   )
 }
+
+#' Endgame pop-up
+#'
+#' @param input
+#' @param output
+#' @return A reactive value with the time in seconds
+#'
+#' @export
 
 endgame <- function(input, output, session) {
   id <- gsub("-$", "", session$ns(""))

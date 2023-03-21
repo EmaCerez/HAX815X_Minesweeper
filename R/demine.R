@@ -1,30 +1,91 @@
 # Fonctions du démineur
 
 ## Fonction pour afficher la grille
+
+#' Show the grid of the game with the flags and the revealed cells.
+#'
+#' @param grille A matrix of integers. The value of each cell is the number of mines adjacent to it or a bomb itself.
+#' @param visible A matrix of booleans. The value of each cell is TRUE if the cell is revealed, FALSE otherwise.
+#' @param drapeaux A matrix of booleans. The value of each cell is TRUE if a flag is placed on it, FALSE otherwise.
+#' @return A visual representation of the grid.
+#' @examples
+#'
+#' afficher_grille(matrix(0, nrow = 2, ncol = 2), matrix(FALSE, nrow = 2, ncol = 2), matrix(c(TRUE,FALSE,FALSE,FALSE), nrow = 2))
+#' afficher_grille(matrix(c(-1,1,0,1,1,0), nrow = 2), matrix(c(FALSE,FALSE,TRUE,TRUE,FALSE,FALSE), nrow = 2), matrix(FALSE, nrow = 2, ncol = 3))
+#'
+#' @export
+
 afficher_grille <- function(grille, visible, drapeaux) {
-  for (i in 1:nrow(grille)) {
-    for (j in 1:ncol(grille)) {
-      if (visible[i, j]) {
-        if (grille[i, j] == -2) {
-          cat("F ")
-        } else if (grille[i, j] == -1) {
-          cat("* ")
-        } else {
-          cat(grille[i, j], "")
-        }
-      } else if (drapeaux[i, j]) {
-        cat("D ")
-      } else {
-        cat("# ")
+
+  espace <- ""
+  if (nrow(grille) >= 10) {
+    espace <- " "
+  }
+  for (i in 0:nrow(grille)) {
+    if (i == 0) {
+      cat(espace, " ")
+      for (j in 1:ncol(grille)) {
+        cat(j, "")
       }
+      cat("\n")
+    } else {
+      cat(i, "")
+      if (i < 10) {
+        cat(espace)
+      }
+      for (j in 1:ncol(grille)) {
+        if (j <= 10) {
+          if (visible[i, j]) {
+            if (grille[i, j] == -2) {
+              cat("F ")
+            } else if (grille[i, j] == -1) {
+              cat("* ")
+            } else {
+              cat(grille[i, j], "")
+            }
+          } else if (drapeaux[i, j]) {
+            cat("D ")
+          } else {
+            cat("# ")
+          }
+        } else {
+          if (visible[i, j]) {
+            if (grille[i, j] == -2) {
+              cat("F  ")
+            } else if (grille[i, j] == -1) {
+              cat("*  ")
+            } else {
+              cat(grille[i, j], " ")
+            }
+          } else if (drapeaux[i, j]) {
+            cat("D  ")
+          } else {
+            cat("#  ")
+          }
+        }
+      }
+      cat("\n")
     }
-    cat("\n")
   }
 }
 
 ###Print ne fonctionne pas pour afficher.
 
 ## Fonction pour calculer le nombre de mines adjacentes
+
+#' Calculate the number of mines adjacent to a cell.
+#' We don't care it the cell itself is a mine or not, we just don't use it if it is.
+#'
+#' @param grille A matrix of integers. The value of each cell is the number of mines adjacent to it or a bomb itself.
+#' @param i The row of the cell.
+#' @param j The column of the cell.
+#' @return The number of mines adjacent to the cell.
+#' @examples
+#'
+#' calculer_mines_adjacentes(matrix(c(0,-1,-1,-1), nrow = 2), 1, 1)
+#'
+#' @export
+
 calculer_mines_adjacentes <- function(grille, i, j) {
   nb_mines_adjacentes <- 0
   for (k in (i - 1):(i + 1)) {
@@ -40,6 +101,20 @@ calculer_mines_adjacentes <- function(grille, i, j) {
 }
 
 ## Fonction pour révéler les cases adjacentes vides
+
+#' Do we have to reveal the adjacent cells of a cell?
+#'
+#' @param grille A matrix of integers. The value of each cell is the number of mines adjacent to it or a bomb itself.
+#' @param visible A matrix of booleans. The value of each cell is TRUE if the cell is revealed, FALSE otherwise.
+#' @param i The row of the cell.
+#' @param j The column of the cell.
+#' @return visible updated with the new revealed cells.
+#' @examples
+#'
+#' reveler_cases_adjacentes(matrix(0, nrow = 2, ncol =2), matrix(c(TRUE,FALSE,FALSE,FALSE), nrow = 2), 1, 1)
+#'
+#' @export
+
 reveler_cases_adjacentes <- function(grille, visible, i, j) {
   if (visible[i, j]) {
     return(visible)
@@ -60,6 +135,17 @@ reveler_cases_adjacentes <- function(grille, visible, i, j) {
 
 ## Fonction pour les points
 
+#' Count the points the player do each move.
+#' The player gets points for each move. The faster he is, the more points he gets. Even more if he reveals a lot of cells at once.
+#'
+#' @param points The number of points the player currently has.
+#' @param temps_depart The time at which the game started.
+#' @param nb_cases The number of cases the player revealed before the move.
+#' @param nb_nouvelles_cases The number of cases the player revealed after the move.
+#' @return The number of points the player has after the move.
+#' 
+#' @export
+
 calcul_points <- function(points, temps_depart, nb_cases, nb_nouvelles_cases) {
   points <- points + (nb_nouvelles_cases - nb_cases)^2 * max(1, floor(100 - (proc.time()[3] - temps_depart)))
   return(points)
@@ -68,6 +154,10 @@ calcul_points <- function(points, temps_depart, nb_cases, nb_nouvelles_cases) {
 #On récompense les joueurs rapides et coups qui révélent beaucoup de cases d'un coup.
 
 # Jouer
+
+#' Play a game of minesweeper.
+#'
+#' @return Each time the player makes a move, the function prints the new state of the game. At the end of the game, the function prints if he lost or won and his number of points.
 
 jouer_partie <- function() {
 
@@ -134,15 +224,15 @@ jouer_partie <- function() {
         if (nb_drapeaux == 0) {
           cat("Vous n'avez plus de drapeaux...")
           cat("\n")
-      } else {
-        drapeaux[i, j] <- !drapeaux[i, j]
-      }
-    } else if (drapeaux[i, j]) {
+        } else {
+          drapeaux[i, j] <- !drapeaux[i, j]
+        }
+      } else if (drapeaux[i, j]) {
         cat("Il y a un drapeau ici")
         cat("\n")
         d <- 5
       }
-  }
+    }
 
     test <- TRUE
     if (grille[i, j] == -1) {
@@ -217,7 +307,7 @@ jouer_partie <- function() {
         afficher_grille(grille, visible, drapeaux)
         partie_terminee <- TRUE
       } else {
-        if (visible[i,j]) {
+        if (visible[i, j]) {
           cat("Vous avez déjà creusez ici...")
           cat("\n")
         } else {
