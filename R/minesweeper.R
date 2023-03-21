@@ -17,9 +17,6 @@ source("R/global.R")
 #' @export
 
 run_app <- function() {
-  
-  shinyOptions(cache = cachem::cache_disk("/www/images"))
-  addResourcePath("images", system.file("/www/images", package = "HAX815"))
 
 # Serveur
 
