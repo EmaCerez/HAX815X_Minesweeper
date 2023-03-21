@@ -3,6 +3,7 @@
 library("shiny")
 library("png")
 library("shinyjs")
+library("shinyWidgets")
 library("beepr")
 
 
