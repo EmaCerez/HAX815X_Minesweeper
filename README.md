@@ -1,4 +1,4 @@
-# HAX815X_Minesweeper
+# HAX815X_Minesweeper / Des mines et des chiffres
 An R library allowing the user to play a game of Minesweeper.  
 Une librairie R permettant à l'utilisateur de jouer une partie de Démineur.
 
