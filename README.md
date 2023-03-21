@@ -41,7 +41,7 @@ Si vous l'avez déjà:
 
 
 
-## Régles
+## Règles
 
 Come on. Mines on grid. Numbers say how many mines around. Good luck.  
 Tout est dans le titre.
