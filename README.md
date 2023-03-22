@@ -35,7 +35,7 @@ If you already have it:
 Si vous l'avez déjà:
 
 ```
-  source("RR/sources/Demine.R") #Useless if you already play in the other game mode. // Si vous avez déjà jouer avec l'interface, cette commande n'est pas néceissaire.
+  source("RR/sources/Demine.R") #Useless if you've already played once in the other game mode. // Si vous avez déjà joué avec l'interface, cette commande n'est pas néceissaire.
   jouer_partie()
 ``` 
 
