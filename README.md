@@ -23,7 +23,7 @@ Une fois dé-Zippé, ouvrez "HAX815X_Minesweeper.Rproj" et rentrez dans le termi
 ## Installation of the terminal Game from Git_Hub
 
 If you already download it from the previous part, this part is optionnal:  
-Si vous avez déjà télécharger le Zip à la partie précédente, cette partie est optionnelle:
+Si vous avez déjà téléchargé le Zip à la partie précédente, cette partie est optionnelle:
 
 ```
   devtools::install_github("EmaCerez/HAX815X_Minesweeper")
