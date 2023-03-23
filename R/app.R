@@ -45,7 +45,6 @@ server <- function(input, output, session) {
   bombs <- c(10, 30, 70, 110)
   layout <- matrix(c(8, 10, 14, 18, 20, 24, 20, 24), ncol = 4, nrow = 2)
 
-  column_number <- reactiveVal(8)
   row_number <- reactiveVal(10)
 
   observe({
