@@ -13,6 +13,9 @@ update_button(i, j, grid_values)
 
 \item{grid_values}{The grid of values}
 }
+\value{
+The new picture to show on the i, j case.
+}
 \description{
 Used to update the picture on a button after it's been clicked
 }
