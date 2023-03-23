@@ -2,7 +2,11 @@
 
 ## HAX815X_Minesweeper / Des mines et des chiffres
 
-An R library allowing the user to play a game of Minesweeper. It features a colorblind mode, 4 difficulty levels and an original theme by Josselin.
+An R library allowing the user to play a game of Minesweeper. There are two ways to play the game: With a graphic interface or in the terminal.
+
+The graphic interface features a colorblind mode, 4 difficulty levels and an original theme by Josselin.
+
+The terminal game is much simpler: Choose a grid size, and simply enter the coordinates of the cells you want to reveal!
 
 ### Graphical Game : Installation and Use
 
@@ -52,7 +56,11 @@ Come on. Mines on grid. Numbers say how many mines around. Good luck.
 
 ## HAX815X_Minesweeper / Des mines et des chiffres
 
-Une librairie R permettant à l'utilisateur de jouer une partie de Démineur. Sont inclus dans ce package 4 niveaux de difficultés, un mode daltonien et un thème musical original par Josselin.
+Une librairie R permettant à l'utilisateur de jouer une partie de Démineur. Deux jeux de démineurs sont inclus dans le package: Un jeu avec une interface graphique et une version console à laquelle vous pouvez jouer depuis votre terminal.
+
+La version graphique comporte 4 niveaux de difficultés, un mode daltonien et un thème musical original par Josselin.
+
+La version console est beaucoup plus légère : Choisissez simplement une taille de grille et entrez les coordonnées des cases que vous souhaitez révéler !
 
 ### Version graphique : Installation et Utilisation
 
