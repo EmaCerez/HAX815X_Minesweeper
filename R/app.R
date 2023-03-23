@@ -8,7 +8,7 @@
 #  -----------------------------------------------------------------------------
 
 
-source("global.R")
+source("R/global.R")
 
 
 # RShiny App -------------------------------------------------------------------
@@ -463,7 +463,7 @@ ui <- fluidPage(
 
 )
 
-return(shinyAp(ui = ui, server = server, options = list(launch.browser = TRUE)))
+return(shinyApp(ui = ui, server = server, options = list(launch.browser = TRUE)))
 
 # Lancement --------------------------------------------------------------------
 

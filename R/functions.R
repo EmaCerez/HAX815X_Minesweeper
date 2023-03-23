@@ -69,7 +69,7 @@ generate_buttons <- function(grid_values, grid_hidden, grid_flags, rows, columns
 #' @param i The row
 #' @param j The column
 #' @param grid_values The grid of values
-#' @return
+#' @return The new picture to show on the i, j case.
 #'
 #' @export
 
