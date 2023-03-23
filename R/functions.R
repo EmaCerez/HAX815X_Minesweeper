@@ -1,26 +1,3 @@
-#'
-#'
-#' @param
-#' @param
-#' @return
-#'
-#' @export
-
-asc <- function(x) {
-  strtoi(charToRaw(x), 16L) - 96
-}
-
-#'
-#'
-#' @param
-#' @param
-#' @return
-#'
-#' @export
-
-chr <- function(n) {
-  rawToChar(as.raw(n + 96))
-}
 
 #' Initialize the grid
 #'
@@ -60,7 +37,7 @@ generate_grid <- function(grid, rows, columns, bombs) {
   return(grid)
 }
 
-#'
+#' Prepares the grid for the pictures
 #'
 #' @param grid_values The grid of values
 #' @param grid_hidden The grid of hidden cells
@@ -87,7 +64,7 @@ generate_buttons <- function(grid_values, grid_hidden, grid_flags, rows, columns
   return(grid)
 }
 
-#'
+#' Used to update the picture on a button after it's been clicked
 #'
 #' @param i The row
 #' @param j The column
@@ -113,7 +90,7 @@ update_button <- function(i, j, grid_values) {
   return(picture)
 }
 
-#' Update the grid
+#' Converts the numbers to pictures in the button grid
 #'
 #' @param grid The grid to update
 #' @param rows The number of rows
@@ -146,11 +123,12 @@ convert_grid <- function(grid, rows, columns) {
   return(grid)
 }
 
+#' Used to reveal adjactent cells that don't have bomb either after you clicked
+#' on a cell from a block of cells
 #'
-#'
-#' @param
-#' @param
-#' @return
+#' @param grille Grid of bombs/numbers
+#' @param visible Grid of cells that have been revealed by the click already (empty at first)
+#' @return visible
 #'
 #' @export
 
@@ -172,11 +150,11 @@ reveal_block <-  function(grille, visible, i, j) {
   return(visible)
 }
 
+#' Used to get the coordinates of the cells that have been revealed
+#' by reveal_block.
 #' 
-#'
-#' @param
-#' @param
-#' @return
+#' @param matrice should be the matrix "visible" returned by reveal_block
+#' @return a matrix with the coordinates of the cells that have been revealed
 #'
 #' @export
 
