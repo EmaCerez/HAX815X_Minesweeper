@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{convert_grid}
 \alias{convert_grid}
-\title{Update the grid}
+\title{Converts the numbers to pictures in the button grid}
 \usage{
 convert_grid(grid, rows, columns)
 }
@@ -17,5 +17,5 @@ convert_grid(grid, rows, columns)
 The updated grid
 }
 \description{
-Update the grid
+Converts the numbers to pictures in the button grid
 }
