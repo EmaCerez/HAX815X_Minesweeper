@@ -63,16 +63,6 @@ win_UI <- function(id, score, time) {
   )
 }
 
-#' Victory pop-up
-#'
-#' @param input
-#' @param output
-#' @param session
-#' @param score The score
-#' @param time The time
-#' @return A reactive value that refreshes the page
-#'
-#' @export
 
 win <- function(input, output, session, score, time) {
   id <- gsub("-$", "", session$ns(""))

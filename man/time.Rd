@@ -7,8 +7,6 @@
 time(input, output, session, start = reactive(0))
 }
 \arguments{
-\item{input}{}
-
 \item{start}{A reactive value that starts the timer}
 }
 \value{

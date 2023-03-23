@@ -72,14 +72,6 @@ welcome_UI <- function(id) {
   )
 }
 
-#' Welcome message
-#'
-#' @param input
-#' @param output
-#' @param session
-#' @return A
-#'
-#' @export
 
 welcome <- function(input, output, session) {
 
