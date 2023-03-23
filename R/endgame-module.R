@@ -25,8 +25,6 @@ endgame_UI <- function(id) {
 
 #' Endgame pop-up
 #'
-#' @param input
-#' @param output
 #' @return A reactive value with the time in seconds
 #'
 #' @export
