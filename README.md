@@ -16,7 +16,7 @@ So please, download the Zip File below and decompress it in a folder.
 
   https://github.com/EmaCerez/HAX815X_Minesweeper/archive/refs/heads/main.zip
   
- Once un-Zip, open "HAX815X_Minesweeper.Rproj" and enter in the terminal (in R mode): 
+ Once un-Zip, open "HAX815X_Minesweeper.Rproj" and enter in the terminal (in R): 
  
  ```
   library(shiny)
@@ -66,7 +66,7 @@ Veuillez télécharger le fichier Zip suivant et décompressez-le dans un dossie
 
   https://github.com/EmaCerez/HAX815X_Minesweeper/archive/refs/heads/main.zip
 
-Une fois dé-Zippé, ouvrez "HAX815X_Minesweeper.Rproj" et rentrez dans la console en mode R:
+Une fois dé-Zippé, ouvrez "HAX815X_Minesweeper.Rproj" et rentrez dans la console en R:
 
 ```
   library(shiny)
