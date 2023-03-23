@@ -16,7 +16,7 @@ So please, download the Zip File below and decompress it in a folder.
 
   https://github.com/EmaCerez/HAX815X_Minesweeper/archive/refs/heads/main.zip
   
- Once un-Zip, open "HAX815X_Minesweeper.Rproj" and enter in the terminal: 
+ Once un-Zip, open "HAX815X_Minesweeper.Rproj" and enter in the terminal (in R mode): 
  
  ```
   library(shiny)
@@ -25,7 +25,7 @@ So please, download the Zip File below and decompress it in a folder.
 
 ### Terminal Game : Installation from Git_Hub
 
-If you already download it from the previous part, this part is optionnal:  
+If you've already downloaded it from the previous part, this part is optionnal:  
 
 ```
   devtools::install_github("EmaCerez/HAX815X_Minesweeper")
@@ -66,7 +66,7 @@ Veuillez télécharger le fichier Zip suivant et décompressez-le dans un dossie
 
   https://github.com/EmaCerez/HAX815X_Minesweeper/archive/refs/heads/main.zip
 
-Une fois dé-Zippé, ouvrez "HAX815X_Minesweeper.Rproj" et rentrez dans le terminal:
+Une fois dé-Zippé, ouvrez "HAX815X_Minesweeper.Rproj" et rentrez dans la console en mode R:
 
 ```
   library(shiny)
