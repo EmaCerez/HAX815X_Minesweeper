@@ -2,9 +2,14 @@
 
 ## HAX815X_Minesweeper / Des mines et des chiffres
 
-An R library allowing the user to play a game of Minesweeper.  
+An R library allowing the user to play a game of Minesweeper. It features a colorblind mode, 4 difficulty levels and an original theme by Josselin.
 
-### Installation and Use of the Graphical Game
+### Graphical Game : Installation and Use
+
+<p align="left" display="inline-block">
+  <img src="docs/ingame_screenshot1.png" width=40%, title="hover text">
+  <img src="docs/ingame_screenshot2.png" width=40%, title="hover text">
+</p>
 
 Due to some issues with the pictures, the game is not complete in the package form.  
 So please, download the Zip File below and decompress it in a folder.
@@ -18,6 +23,16 @@ So please, download the Zip File below and decompress it in a folder.
   runApp('RR/ManualGame.R')
 ```  
 
+### Terminal Game : Installation from Git_Hub
+
+If you already download it from the previous part, this part is optionnal:  
+
+```
+  devtools::install_github("EmaCerez/HAX815X_Minesweeper")
+  library(HAX815X)
+  jouer_partie()
+``` 
+
 If you already have it:  
 
 ```
@@ -26,6 +41,7 @@ If you already have it:
 ``` 
 
 ## Rules 
+
 Come on. Mines on grid. Numbers say how many mines around. Good luck.  
 
 <br/>
@@ -36,9 +52,14 @@ Come on. Mines on grid. Numbers say how many mines around. Good luck.
 
 ## HAX815X_Minesweeper / Des mines et des chiffres
 
-Une librairie R permettant à l'utilisateur de jouer une partie de Démineur.
+Une librairie R permettant à l'utilisateur de jouer une partie de Démineur. Sont inclus dans ce package 4 niveaux de difficultés, un mode daltonien et un thème musical original par Josselin.
 
-### Installation et utilisation du jeu (version graphique)
+### Version graphique : Installation et Utilisation
+
+<p align="left" display="inline-block">
+  <img src="docs/ingame_screenshot1.png" width=40%, title="hover text">
+  <img src="docs/ingame_screenshot2.png" width=40%, title="hover text">
+</p>
 
 En raison de certains problèmes avec les images, le jeu n'est pas complet en package.  
 Veuillez télécharger le fichier Zip suivant et décompressez-le dans un dossier:
@@ -52,10 +73,9 @@ Une fois dé-Zippé, ouvrez "HAX815X_Minesweeper.Rproj" et rentrez dans le termi
   runApp('RR/ManualGame.R')
 ```  
 
-### Installation of the terminal Game from Git_Hub
+### Version console : Installation depuis GitHub
 
-If you already download it from the previous part, this part is optionnal:  
-Si vous avez déjà téléchargé le Zip à la partie précédente, cette partie est optionnelle:
+Si vous avez déjà téléchargé le Zip à la partie précédente, cette partie est optionnelle :
 
 ```
   devtools::install_github("EmaCerez/HAX815X_Minesweeper")
