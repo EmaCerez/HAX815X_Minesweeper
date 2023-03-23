@@ -21,9 +21,6 @@ time_UI <- function(id) {
 
 #' Time module
 #' 
-#' @param input 
-#' @param output
-#' @param session
 #' @param start A reactive value that starts the timer
 #' @return A reactive value with the time in seconds
 #'
