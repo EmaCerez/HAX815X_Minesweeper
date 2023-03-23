@@ -4,7 +4,7 @@ Une librairie R permettant à l'utilisateur de jouer une partie de Démineur.
 
 ## Installation and Use of the Graphical Game
 
-Due to some problems with the pictures, the game is not complete in the package form.  
+Due to some issues with the pictures, the game is not complete in the package form.  
 So please, download the Zip File below and decompress it in a folder.
 
 En raison de certains problèmes avec les images, le jeu n'est pas complet en package.  
